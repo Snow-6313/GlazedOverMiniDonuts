@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+# Block admin pages from indexing
+Disallow: /admin-login.html
+Disallow: /admin-dashboard.html
+
+Sitemap: https://www.glazedoverminis.com/sitemap.xml
