@@ -165,7 +165,7 @@ import { initializeFirestore, getFirestore, doc, onSnapshot } from 'https://www.
     container.innerHTML = visible.map((item) => {
       const background = item.background || 'rgba(244,167,65,.12)';
       return (
-        '<article class="flavor-card visible" role="listitem">' +
+        '<article class="flavor-card visible">' +
           '<div class="flavor-donut-wrap" style="background:' + escapeHtml(background) + ';">' + mediaMarkup(item, 'public-card-visual', '🍩') + '</div>' +
           '<h3 class="flavor-name">' + escapeHtml(textFor(item.name, 'Flavor')) + '</h3>' +
           '<p class="flavor-desc">' + escapeHtml(textFor(item.description, '')) + '</p>' +

@@ -57,7 +57,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Shrikhand&family=Alfa+Slab+One&display=swap" rel="stylesheet" />
 
   <!-- Stylesheet -->
-  <link rel="stylesheet" href="css/site.css?v=20260402d" />
+  <link rel="stylesheet" href="css/site.css?v=20260402e" />
 
   <!-- Theme preload — reads saved preference and applies it before paint to prevent flash -->
   <script src="js/consent.js"></script>
@@ -120,7 +120,7 @@
       </ul>
 
       <!-- Social Icons -->
-      <div class="nav-socials" aria-label="Social media links">
+      <div class="nav-socials" role="group" aria-label="Social media links">
         <a href="https://www.instagram.com/glazed.over.mini.donuts/" target="_blank" rel="noopener" aria-label="Instagram">
           <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
         </a>
@@ -133,7 +133,7 @@
       </div>
 
       <!-- Theme & Language Controls -->
-      <div class="nav-controls" aria-label="Display controls">
+      <div class="nav-controls" role="group" aria-label="Display controls">
         <button id="theme-toggle" aria-label="System theme (auto)" title="Cycle theme: auto → light → dark → high-contrast" data-current-theme="auto">
           <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
           <span class="sr-only">System theme (auto)</span>
@@ -236,7 +236,7 @@
 <!-- ========================
      MARQUEE TICKER
      ======================== -->
-<div class="marquee-strip" aria-label="Features ticker">
+<div class="marquee-strip" aria-hidden="true">
   <div class="marquee-track" aria-hidden="true">
     <span class="marquee-item"><span class="marquee-sep"></span> <span data-i18n="marquee_item1">Fried in Beef Tallow</span></span>
     <span class="marquee-item"><span class="marquee-sep"></span> <span data-i18n="marquee_item3">Made to Order</span></span>
@@ -305,58 +305,58 @@
       <p class="section-subtitle" data-i18n="flavors_subtitle">From classic to cosmic — every bite is a groovy experience worth coming back for.</p>
     </div>
 
-    <div class="flavors-grid" role="list" aria-label="Flavor options" data-dynamic-content="home-flavors">
+    <div class="flavors-grid" aria-label="Flavor options" data-dynamic-content="home-flavors">
 
-      <div class="flavor-card reveal delay-1" role="listitem" data-flavor="glazed-confused">
+      <div class="flavor-card reveal delay-1" data-flavor="glazed-confused">
         <div class="flavor-donut-wrap" style="background:rgba(244,167,65,.12);" aria-hidden="true">🍩</div>
         <div class="flavor-name" data-i18n="fl_glazed_name">Glazed &amp; Confused</div>
         <div class="flavor-desc" data-i18n="fl_glazed_desc">Classic glaze — simple, perfect, timeless</div>
         <span class="flavor-tag tag-classic" data-i18n="tag_classic">Classic</span>
       </div>
 
-      <div class="flavor-card reveal delay-2" role="listitem" data-flavor="picture-perfect">
+      <div class="flavor-card reveal delay-2" data-flavor="picture-perfect">
         <div class="flavor-donut-wrap" style="background:rgba(232,100,122,.12);" aria-hidden="true">🍓</div>
         <div class="flavor-name" data-i18n="fl_picture_name">Picture Perfect</div>
         <div class="flavor-desc" data-i18n="fl_picture_desc">Strawberry glaze + rainbow sprinkles</div>
         <span class="flavor-tag tag-popular" data-i18n="tag_popular">Popular</span>
       </div>
 
-      <div class="flavor-card reveal delay-3" role="listitem" data-flavor="churro-groove">
+      <div class="flavor-card reveal delay-3" data-flavor="churro-groove">
         <div class="flavor-donut-wrap" style="background:rgba(184,121,15,.12);" aria-hidden="true">🥐</div>
         <div class="flavor-name" data-i18n="fl_churro_name">Churro Groove</div>
         <div class="flavor-desc" data-i18n="fl_churro_desc">Cinnamon sugar + dulce de leche</div>
         <span class="flavor-tag tag-popular" data-i18n="tag_fan_fave">Fan Fave</span>
       </div>
 
-      <div class="flavor-card reveal delay-4" role="listitem" data-flavor="bringing-home-bacon">
+      <div class="flavor-card reveal delay-4" data-flavor="bringing-home-bacon">
         <div class="flavor-donut-wrap" style="background:rgba(60,40,20,.08);" aria-hidden="true">🥓</div>
         <div class="flavor-name" data-i18n="fl_bacon_name">Bringing Home the Bacon</div>
         <div class="flavor-desc" data-i18n="fl_bacon_desc">Maple drizzle + bacon bits</div>
         <span class="flavor-tag tag-special" data-i18n="tag_bold">Bold</span>
       </div>
 
-      <div class="flavor-card reveal delay-1" role="listitem" data-flavor="raspberry-beret">
+      <div class="flavor-card reveal delay-1" data-flavor="raspberry-beret">
         <div class="flavor-donut-wrap" style="background:rgba(155,89,182,.10);" aria-hidden="true">🫐</div>
         <div class="flavor-name" data-i18n="fl_rasp_name">Raspberry Beret</div>
         <div class="flavor-desc" data-i18n="fl_rasp_desc">Powdered sugar + raspberry drizzle</div>
         <span class="flavor-tag tag-popular" data-i18n="tag_popular">Popular</span>
       </div>
 
-      <div class="flavor-card reveal delay-2" role="listitem" data-flavor="total-eclipse">
+      <div class="flavor-card reveal delay-2" data-flavor="total-eclipse">
         <div class="flavor-donut-wrap" style="background:rgba(51,31,12,.08);" aria-hidden="true">🍫</div>
         <div class="flavor-name" data-i18n="fl_eclipse_name">A Total Eclipse</div>
         <div class="flavor-desc" data-i18n="fl_eclipse_desc">Chocolate drizzle + sprinkles</div>
         <span class="flavor-tag tag-classic" data-i18n="tag_classic">Classic</span>
       </div>
 
-      <div class="flavor-card reveal delay-3" role="listitem" data-flavor="rocket-man">
+      <div class="flavor-card reveal delay-3" data-flavor="rocket-man">
         <div class="flavor-donut-wrap" style="background:rgba(126,200,164,.12);" aria-hidden="true">🚀</div>
         <div class="flavor-name" data-i18n="fl_rocket_name">Rocket Man</div>
         <div class="flavor-desc" data-i18n="fl_rocket_desc">Vanilla glaze + Oreo crumble</div>
         <span class="flavor-tag tag-special" data-i18n="tag_special">Special</span>
       </div>
 
-      <div class="flavor-card reveal delay-4" role="listitem" data-flavor="strawberry-fields">
+      <div class="flavor-card reveal delay-4" data-flavor="strawberry-fields">
         <div class="flavor-donut-wrap" style="background:rgba(244,167,65,.15);" aria-hidden="true">🍰</div>
         <div class="flavor-name" data-i18n="fl_straw_name">Strawberry Fields</div>
         <div class="flavor-desc" data-i18n="fl_straw_desc">Chocolate &amp; strawberry drizzle + strawberry bits</div>
@@ -456,7 +456,7 @@
     <div class="events-grid" data-dynamic-content="home-events">
 
       <div class="event-card reveal delay-1">
-        <div class="event-date-box" aria-label="Date">
+        <div class="event-date-box">
           <div class="event-date-month">Apr</div>
           <div class="event-date-day">3</div>
         </div>

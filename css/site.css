@@ -714,7 +714,6 @@ h1, h2, h3, h4, h5, h6,
   position: relative;
   z-index: 2;
   width: clamp(260px, 34vw, 460px);
-  overflow: visible;
   filter: drop-shadow(0 28px 52px rgba(232,100,122,.22));
   animation: floatMain 6s ease-in-out infinite;
   transform-origin: center;
@@ -4409,17 +4408,6 @@ html[lang="es"] .gom-chatbot {
 
 @media (max-width: 640px) {
   .gom-chatbot {
-    left: 1rem;
-    right: 1rem;
-    bottom: 1rem;
-  }
-
-  .gom-chatbot-toggle {
-    width: 100%;
-    justify-content: center;
-  }
-
-  .gom-chatbot-window {
-    width: 100%;
+    display: none;
   }
 }
