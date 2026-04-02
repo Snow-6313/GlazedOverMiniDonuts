@@ -161,6 +161,258 @@ const t   = (key, fallback = '') => (window.GOMI18N && typeof window.GOMI18N.t =
 })();
 
 /* ======================================
+   EXTERNAL LINK EXIT CONFIRMATION
+   ====================================== */
+(function initExternalLinkConfirmation() {
+  if (window.GOMDisableLegacyLeavePrompt) return;
+
+  const ignoredProtocols = new Set(['mailto:', 'tel:', 'sms:', 'javascript:']);
+  const focusableSelector = 'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
+  let modal;
+  let modalTitle;
+  let modalBody;
+  let modalNotice;
+  let modalDestinationLabel;
+  let modalDestinationUrl;
+  let modalCloseButton;
+  let modalBackdrop;
+  let stayButton;
+  let leaveButton;
+  let pendingNavigation = null;
+  let lastFocusedElement = null;
+
+  const shouldConfirmExit = (link) => {
+    if (!link || link.hasAttribute('download') || link.dataset.skipLeaveConfirm === 'true') return false;
+
+    const rawHref = link.getAttribute('href');
+    if (!rawHref || rawHref.startsWith('#')) return false;
+
+    let url;
+    try {
+      url = new URL(link.href, window.location.href);
+    } catch (error) {
+      return false;
+    }
+
+    if (ignoredProtocols.has(url.protocol)) return false;
+    if (url.origin === window.location.origin) return false;
+
+    return url.protocol === 'http:' || url.protocol === 'https:';
+  };
+
+  const getModalText = (url) => {
+    const shortLink = url.hostname.replace(/^www\./, '') || url.href;
+
+    return {
+      eyebrow: t('leave_site_eyebrow', 'External link'),
+      title: t('leave_site_title', 'Leaving Glazed Over Mini Donuts'),
+      body: t('leave_site_body', 'Are you sure you want to go to {link}?').replace('{link}', shortLink),
+      notice: t('leave_site_notice', 'You will be leaving this site.'),
+      destinationLabel: t('leave_site_destination', 'Destination'),
+      stay: t('leave_site_stay', 'Stay here'),
+      leave: t('leave_site_leave', 'Leave site')
+    };
+  };
+
+  const getFocusableElements = () => {
+    if (!modal || modal.hidden) return [];
+    return qsa(focusableSelector, modal).filter((el) => !el.disabled && el.getClientRects().length > 0);
+  };
+
+  const closeModal = ({ restoreFocus = true } = {}) => {
+    if (!modal) return;
+    modal.hidden = true;
+    document.body.classList.remove('leave-site-modal-open');
+    pendingNavigation = null;
+    if (restoreFocus && lastFocusedElement && typeof lastFocusedElement.focus === 'function') {
+      lastFocusedElement.focus();
+    }
+  };
+
+  const updateModalContent = () => {
+    if (!modalTitle || !modalBody || !modalNotice || !modalDestinationLabel || !modalDestinationUrl || !stayButton || !leaveButton || !pendingNavigation) return;
+
+    const text = getModalText(pendingNavigation.url);
+    const eyebrow = qs('.leave-site-modal-eyebrow', modal);
+
+    if (eyebrow) eyebrow.textContent = text.eyebrow;
+    modalTitle.textContent = text.title;
+    modalBody.textContent = text.body;
+    modalNotice.textContent = text.notice;
+    modalDestinationLabel.textContent = text.destinationLabel;
+    modalDestinationUrl.textContent = pendingNavigation.url.href;
+    stayButton.textContent = text.stay;
+    leaveButton.textContent = text.leave;
+    leaveButton.href = pendingNavigation.url.href;
+    leaveButton.target = pendingNavigation.target || '_self';
+
+    const relTokens = new Set((pendingNavigation.rel || '').split(/\s+/).filter(Boolean));
+    if (leaveButton.target === '_blank') relTokens.add('noopener');
+    leaveButton.rel = [...relTokens].join(' ');
+  };
+
+  const ensureModal = () => {
+    if (modal) return;
+
+    modal = document.createElement('div');
+    modal.className = 'leave-site-modal';
+    modal.id = 'leave-site-modal';
+    modal.hidden = true;
+    modal.innerHTML = [
+      '<div class="leave-site-modal-backdrop" data-leave-close></div>',
+      '<div class="leave-site-modal-dialog" role="alertdialog" aria-modal="true" aria-labelledby="leave-site-modal-title" aria-describedby="leave-site-modal-body leave-site-modal-note">',
+        '<button type="button" class="leave-site-modal-close" aria-label="Close" data-leave-close>×</button>',
+        '<div class="leave-site-modal-badge" aria-hidden="true">↗</div>',
+        '<p class="leave-site-modal-eyebrow"></p>',
+        '<h2 id="leave-site-modal-title" class="leave-site-modal-title"></h2>',
+        '<p id="leave-site-modal-body" class="leave-site-modal-body"></p>',
+        '<div class="leave-site-modal-destination">',
+          '<span class="leave-site-modal-destination-label"></span>',
+          '<span class="leave-site-modal-destination-url"></span>',
+        '</div>',
+        '<p id="leave-site-modal-note" class="leave-site-modal-note"></p>',
+        '<div class="leave-site-modal-actions">',
+          '<button type="button" class="btn btn-outline" data-leave-action="stay"></button>',
+          '<a class="btn btn-primary" data-leave-action="leave" data-skip-leave-confirm="true"></a>',
+        '</div>',
+      '</div>'
+    ].join('');
+
+    document.body.appendChild(modal);
+
+    modalBackdrop = qs('.leave-site-modal-backdrop', modal);
+    modalTitle = qs('#leave-site-modal-title', modal);
+    modalBody = qs('#leave-site-modal-body', modal);
+    modalNotice = qs('#leave-site-modal-note', modal);
+    modalDestinationLabel = qs('.leave-site-modal-destination-label', modal);
+    modalDestinationUrl = qs('.leave-site-modal-destination-url', modal);
+    modalCloseButton = qs('.leave-site-modal-close', modal);
+    stayButton = qs('[data-leave-action="stay"]', modal);
+    leaveButton = qs('[data-leave-action="leave"]', modal);
+
+    if (modalBackdrop) {
+      modalBackdrop.addEventListener('click', (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        closeModal();
+      });
+    }
+
+    if (modalCloseButton) {
+      modalCloseButton.addEventListener('click', (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        closeModal();
+      });
+    }
+
+    if (stayButton) {
+      stayButton.addEventListener('click', (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        closeModal();
+      });
+    }
+
+    if (leaveButton) {
+      leaveButton.addEventListener('click', () => {
+        closeModal({ restoreFocus: false });
+      });
+    }
+
+    modal.addEventListener('click', (event) => {
+      const actionNode = event.target instanceof Element ? event.target.closest('[data-leave-action], [data-leave-close]') : null;
+
+      if (actionNode) {
+        const action = actionNode.getAttribute('data-leave-action');
+
+        if (action === 'stay' || actionNode.hasAttribute('data-leave-close')) {
+          event.preventDefault();
+          event.stopPropagation();
+          closeModal();
+          return;
+        }
+
+        if (action === 'leave') {
+          closeModal({ restoreFocus: false });
+          return;
+        }
+      }
+
+      if (event.target === modal || (event.target instanceof Element && event.target.classList.contains('leave-site-modal-backdrop'))) {
+        closeModal();
+      }
+    });
+  };
+
+  const openModal = (link, url) => {
+    ensureModal();
+    pendingNavigation = {
+      url,
+      target: link.getAttribute('target') || '_self',
+      rel: (link.getAttribute('rel') || '').toLowerCase()
+    };
+    lastFocusedElement = document.activeElement;
+    updateModalContent();
+    modal.hidden = false;
+    document.body.classList.add('leave-site-modal-open');
+    window.requestAnimationFrame(() => {
+      if (stayButton) stayButton.focus();
+    });
+  };
+
+  document.addEventListener('click', (event) => {
+    if (event.defaultPrevented) return;
+    if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+    if (event.target && !(event.target instanceof Element)) return;
+    if ('button' in event && event.button !== 0) return;
+
+    const link = event.target.closest('a[href]');
+    if (!shouldConfirmExit(link)) return;
+
+    let url;
+    try {
+      url = new URL(link.href, window.location.href);
+    } catch (error) {
+      return;
+    }
+
+    event.preventDefault();
+    openModal(link, url);
+  }, true);
+
+  document.addEventListener('keydown', (event) => {
+    if (!modal || modal.hidden) return;
+
+    if (event.key === 'Escape') {
+      event.preventDefault();
+      closeModal();
+      return;
+    }
+
+    if (event.key !== 'Tab') return;
+
+    const focusable = getFocusableElements();
+    if (!focusable.length) return;
+
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
+
+    if (event.shiftKey && document.activeElement === first) {
+      event.preventDefault();
+      last.focus();
+    } else if (!event.shiftKey && document.activeElement === last) {
+      event.preventDefault();
+      first.focus();
+    }
+  });
+
+  document.addEventListener('gom:langchange', () => {
+    if (pendingNavigation) updateModalContent();
+  });
+})();
+
+/* ======================================
    SUBTLE ADMIN LOGIN LINK
    ====================================== */
 (function initAdminLoginLink() {

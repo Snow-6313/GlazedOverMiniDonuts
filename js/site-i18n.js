@@ -54,6 +54,14 @@
       nav_toggle_label: 'Toggle menu',
       back_to_top: 'Back to top',
       scroll_down: 'Scroll down',
+      leave_site_confirm: 'Are you sure you want to go to {link}? You will be leaving this site.',
+      leave_site_eyebrow: 'External link',
+      leave_site_title: 'Leaving Glazed Over Mini Donuts',
+      leave_site_body: 'Are you sure you want to go to {link}?',
+      leave_site_notice: 'You will be leaving this site.',
+      leave_site_destination: 'Destination',
+      leave_site_stay: 'Stay here',
+      leave_site_leave: 'Leave site',
 
       /* Nav */
       nav_home:    'Home',
@@ -389,6 +397,14 @@
       nav_toggle_label: 'Abrir o cerrar menú',
       back_to_top: 'Volver arriba',
       scroll_down: 'Desplazarse hacia abajo',
+      leave_site_confirm: '¿Seguro que quieres ir a {link}? Saldrás de este sitio.',
+      leave_site_eyebrow: 'Enlace externo',
+      leave_site_title: 'Vas a salir de Glazed Over Mini Donuts',
+      leave_site_body: '¿Seguro que quieres ir a {link}?',
+      leave_site_notice: 'Saldrás de este sitio.',
+      leave_site_destination: 'Destino',
+      leave_site_stay: 'Quedarme aquí',
+      leave_site_leave: 'Salir del sitio',
 
       /* Nav */
       nav_home:    'Inicio',

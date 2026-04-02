@@ -121,6 +121,7 @@ h1, h2, h3, h4, h5, h6,
   transform: scaleX(0);
   transform-origin: left;
   transition: transform var(--transition-fast);
+  pointer-events: none;
 }
 .btn:hover::before { transform: scaleX(1); }
 
@@ -3075,6 +3076,181 @@ button:focus-visible { outline-color: var(--clr-secondary); }
   display: grid;
   place-items: center;
   padding: 1rem;
+}
+
+body.leave-site-modal-open {
+  overflow: hidden;
+}
+
+.leave-site-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 1400;
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+}
+
+.leave-site-modal-backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: rgba(45,27,14,.52);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+.leave-site-modal-dialog {
+  position: relative;
+  z-index: 1;
+  pointer-events: auto;
+  width: min(540px, 100%);
+  padding: 1.5rem;
+  border-radius: 1.6rem;
+  background: linear-gradient(180deg, rgba(255,251,244,.98), rgba(253,244,227,.98));
+  border: 1px solid rgba(45,27,14,.08);
+  box-shadow: 0 24px 60px rgba(45,27,14,.24);
+  color: var(--clr-text);
+}
+
+.leave-site-modal-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  z-index: 4;
+  width: 2.5rem;
+  height: 2.5rem;
+  border: 1px solid rgba(45,27,14,.12);
+  border-radius: 999px;
+  background: rgba(255,255,255,.9);
+  color: var(--clr-dark);
+  font-size: 1.4rem;
+  line-height: 1;
+  pointer-events: auto;
+}
+
+.leave-site-modal-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  margin-bottom: .9rem;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(244,167,65,.18), rgba(232,100,122,.2));
+  color: var(--clr-secondary);
+  font-size: 1.4rem;
+  box-shadow: inset 0 0 0 1px rgba(232,100,122,.08);
+  pointer-events: none;
+}
+
+.leave-site-modal-eyebrow {
+  margin-bottom: .4rem;
+  color: var(--clr-secondary);
+  font-size: .78rem;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+
+.leave-site-modal-title {
+  margin-bottom: .55rem;
+  color: var(--clr-dark);
+  font-size: clamp(1.55rem, 3vw, 2rem);
+  line-height: 1.05;
+}
+
+.leave-site-modal-body,
+.leave-site-modal-note {
+  color: var(--clr-muted);
+}
+
+.leave-site-modal-body {
+  margin-bottom: 1rem;
+}
+
+.leave-site-modal-destination {
+  display: grid;
+  gap: .32rem;
+  margin-bottom: 1rem;
+  padding: .9rem 1rem;
+  border-radius: var(--radius-md);
+  background: rgba(255,255,255,.8);
+  border: 1px solid rgba(45,27,14,.08);
+}
+
+.leave-site-modal-destination-label {
+  color: var(--clr-dark);
+  font-size: .84rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.leave-site-modal-destination-url {
+  overflow-wrap: anywhere;
+  color: var(--clr-text);
+  font-size: .95rem;
+}
+
+.leave-site-modal-note {
+  margin-bottom: 1.25rem;
+}
+
+.leave-site-modal-actions {
+  display: flex;
+  position: relative;
+  z-index: 2;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: .75rem;
+}
+
+.leave-site-modal-actions .btn {
+  position: relative;
+  z-index: 3;
+  pointer-events: auto;
+  justify-content: center;
+}
+
+[data-theme="dark"] .leave-site-modal-dialog {
+  background: linear-gradient(180deg, rgba(58,33,16,.98), rgba(45,27,14,.98));
+  border-color: rgba(244,167,65,.16);
+  color: var(--clr-light);
+}
+
+[data-theme="dark"] .leave-site-modal-close {
+  background: rgba(255,248,240,.12);
+  border-color: rgba(244,167,65,.16);
+  color: var(--clr-light);
+}
+
+[data-theme="dark"] .leave-site-modal-title,
+[data-theme="dark"] .leave-site-modal-destination-label,
+[data-theme="dark"] .leave-site-modal-destination-url {
+  color: var(--clr-light);
+}
+
+[data-theme="dark"] .leave-site-modal-body,
+[data-theme="dark"] .leave-site-modal-note {
+  color: rgba(255,248,240,.78);
+}
+
+[data-theme="dark"] .leave-site-modal-destination {
+  background: rgba(255,248,240,.08);
+  border-color: rgba(244,167,65,.12);
+}
+
+@media (max-width: 640px) {
+  .leave-site-modal-dialog {
+    padding: 1.2rem;
+  }
+
+  .leave-site-modal-actions {
+    flex-direction: column-reverse;
+  }
+
+  .leave-site-modal-actions .btn {
+    width: 100%;
+  }
 }
 
 .cookie-modal-backdrop {
