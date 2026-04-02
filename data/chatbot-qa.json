@@ -1,0 +1,321 @@
+{
+  "en": {
+    "starter": "Hey! I’m your groovy mini donut helper. Ask me about flavors, ingredients, ordering, events, or Ashley.",
+    "fallback": "I’m not fully sure on that one yet, but I can usually help with flavors, ingredients, ordering, events, and contact info.",
+    "suggestions": [
+      "What flavors do you have?",
+      "Do you use seed oils?",
+      "Who made this website?"
+    ],
+    "items": [
+      {
+        "id": "ingredients",
+        "questions": [
+          "do you use seed oils",
+          "what ingredients do you use",
+          "what makes your donuts different",
+          "are your donuts fried in beef tallow",
+          "what oil do you fry in",
+          "what oil do you use",
+          "do any donuts have seed oils"
+        ],
+        "keywords": [
+          "seed oils",
+          "beef tallow",
+          "ingredients",
+          "fried",
+          "tallow",
+          "artificial colors",
+          "oil",
+          "toppings"
+        ],
+        "answer": "Our donuts are made with old-school vibes and fried in beef tallow, but some flavors or toppings may include some seed oils. If you need details, ask us about a specific donut flavor."
+      },
+      {
+        "id": "flavors",
+        "questions": [
+          "what flavors do you have",
+          "what are your flavors",
+          "what glazes do you have",
+          "what is on the menu",
+          "do you have specials",
+          "what donuts do you have",
+          "what flavors are available"
+        ],
+        "keywords": [
+          "flavors",
+          "flavour",
+          "glazes",
+          "menu",
+          "specials",
+          "classic",
+          "donuts",
+          "available"
+        ],
+        "answer": "We serve groovy classic flavors plus rotating favorites and specials. Check the menu page for the full lineup and current monthly picks."
+      },
+      {
+        "id": "ordering",
+        "questions": [
+          "how do i order",
+          "what pack sizes do you have",
+          "how many donuts come in an order",
+          "are donuts made to order",
+          "can i choose flavors",
+          "how many donuts come in a pack",
+          "do you make them fresh"
+        ],
+        "keywords": [
+          "order",
+          "pack",
+          "packs",
+          "6",
+          "12",
+          "24",
+          "made to order"
+        ],
+        "answer": "Our mini donuts are made fresh to order. You can grab packs of 6, 12, or 24 and pick your flavors from the menu."
+      },
+      {
+        "id": "location",
+        "questions": [
+          "where are you located",
+          "where can i find you",
+          "where is the truck",
+          "what area do you serve",
+          "do you do events",
+          "where are you today",
+          "where will you be"
+        ],
+        "keywords": [
+          "where",
+          "location",
+          "truck",
+          "events",
+          "phoenix",
+          "west valley"
+        ],
+        "answer": "We roll through the Phoenix West Valley at pop-ups and events. For the latest stops, check the contact page or follow us on social media for real-time updates."
+      },
+      {
+        "id": "contact",
+        "questions": [
+          "how do i contact you",
+          "what social media do you have",
+          "where can i follow you",
+          "do you have instagram",
+          "how can i reach out",
+          "how do i message you",
+          "where can i dm you"
+        ],
+        "keywords": [
+          "contact",
+          "instagram",
+          "facebook",
+          "tiktok",
+          "social",
+          "follow"
+        ],
+        "answer": "You can keep up with us on Instagram, Facebook, and TikTok, or head to the contact page if you want to reach out about events and updates."
+      },
+      {
+        "id": "ashley",
+        "questions": [
+          "who is ashley",
+          "who owns glazed over",
+          "tell me about ashley",
+          "who started this",
+          "what is your story",
+          "who is the founder",
+          "who owns this donut business"
+        ],
+        "keywords": [
+          "ashley",
+          "owner",
+          "founder",
+          "story",
+          "mom of 7"
+        ],
+        "answer": "Glazed Over was built by Ashley, a mom of 7 who turned a dream into a donut truck with heart, quality ingredients, and a whole lot of joy."
+      },
+      {
+        "id": "website",
+        "questions": [
+          "who made this website",
+          "who built this website",
+          "who created this website",
+          "who made your site",
+          "who built your site"
+        ],
+        "keywords": [
+          "website",
+          "site",
+          "built",
+          "made",
+          "created",
+          "ethan"
+        ],
+        "answer": "This website was made by Ashley’s son, Ethan Curtis."
+      }
+    ]
+  },
+  "es": {
+    "starter": "¡Hola! Soy tu ayudante groovy de mini donas. Pregúntame sobre sabores, ingredientes, pedidos, eventos o Ashley.",
+    "fallback": "Todavía no estoy totalmente seguro de eso, pero normalmente puedo ayudar con sabores, ingredientes, pedidos, eventos y contacto.",
+    "suggestions": [
+      "¿Qué sabores tienen?",
+      "¿Usan aceites de semillas?",
+      "¿Quién hizo este sitio web?"
+    ],
+    "items": [
+      {
+        "id": "ingredients",
+        "questions": [
+          "usan aceites de semillas",
+          "que ingredientes usan",
+          "que hace especiales sus donas",
+          "frien las donas en sebo de res",
+          "con que aceite frien",
+          "que aceite usan",
+          "alguna dona tiene aceite de semillas"
+        ],
+        "keywords": [
+          "aceites de semillas",
+          "sebo de res",
+          "ingredientes",
+          "fritas",
+          "sebo",
+          "colorantes artificiales",
+          "aceite",
+          "toppings"
+        ],
+        "answer": "Nuestras donas se hacen con un estilo clásico y se fríen en sebo de res, pero algunos sabores o toppings sí pueden incluir algo de aceite de semillas. Si quieres saber sobre una dona específica, pregúntanos por ese sabor."
+      },
+      {
+        "id": "flavors",
+        "questions": [
+          "que sabores tienen",
+          "cuales son sus sabores",
+          "que glaseados tienen",
+          "que hay en el menu",
+          "tienen especiales",
+          "que donas tienen",
+          "que sabores estan disponibles"
+        ],
+        "keywords": [
+          "sabores",
+          "glaseados",
+          "menu",
+          "especiales",
+          "clasicos",
+          "donas",
+          "disponibles"
+        ],
+        "answer": "Tenemos sabores clásicos, favoritos que van rotando y especiales. Mira la página del menú para ver la selección completa y los especiales del mes."
+      },
+      {
+        "id": "ordering",
+        "questions": [
+          "como hago un pedido",
+          "que tamaños de paquetes tienen",
+          "cuantas donas vienen",
+          "las donas se hacen al momento",
+          "puedo elegir sabores",
+          "cuantas donas vienen en un paquete",
+          "las hacen frescas"
+        ],
+        "keywords": [
+          "pedido",
+          "paquete",
+          "paquetes",
+          "6",
+          "12",
+          "24",
+          "hecho al momento"
+        ],
+        "answer": "Nuestras mini donas se hacen frescas al momento. Puedes pedir paquetes de 6, 12 o 24 y elegir tus sabores del menú."
+      },
+      {
+        "id": "location",
+        "questions": [
+          "donde estan ubicados",
+          "donde puedo encontrarlos",
+          "donde esta el camion",
+          "que area sirven",
+          "hacen eventos",
+          "donde estan hoy",
+          "donde van a estar"
+        ],
+        "keywords": [
+          "donde",
+          "ubicacion",
+          "camion",
+          "eventos",
+          "phoenix",
+          "west valley"
+        ],
+        "answer": "Estamos recorriendo el Valle Oeste de Phoenix en pop-ups y eventos. Para ver nuestras próximas paradas, revisa la página de contacto o síguenos en redes sociales."
+      },
+      {
+        "id": "contact",
+        "questions": [
+          "como los contacto",
+          "que redes sociales tienen",
+          "donde los sigo",
+          "tienen instagram",
+          "como me comunico",
+          "como les mando mensaje",
+          "donde les escribo"
+        ],
+        "keywords": [
+          "contacto",
+          "instagram",
+          "facebook",
+          "tiktok",
+          "redes",
+          "seguir"
+        ],
+        "answer": "Puedes seguirnos en Instagram, Facebook y TikTok, o visitar la página de contacto si quieres escribirnos sobre eventos y novedades."
+      },
+      {
+        "id": "ashley",
+        "questions": [
+          "quien es ashley",
+          "quien es la dueña",
+          "cuentame de ashley",
+          "quien empezo esto",
+          "cual es su historia",
+          "quien es la fundadora",
+          "quien es la dueña del negocio"
+        ],
+        "keywords": [
+          "ashley",
+          "dueña",
+          "fundadora",
+          "historia",
+          "mama de 7"
+        ],
+        "answer": "Glazed Over fue creado por Ashley, una mamá de 7 que convirtió un sueño en una camioneta de donas llena de corazón, calidad y alegría."
+      },
+      {
+        "id": "website",
+        "questions": [
+          "quien hizo este sitio web",
+          "quien creo este sitio web",
+          "quien hizo la pagina web",
+          "quien hizo su sitio",
+          "quien creo su pagina"
+        ],
+        "keywords": [
+          "sitio web",
+          "pagina web",
+          "web",
+          "hizo",
+          "creo",
+          "ethan"
+        ],
+        "answer": "Este sitio web fue hecho por Ethan Curtuis, el hijo de Ashley."
+      }
+    ]
+  }
+}

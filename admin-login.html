@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Glazed Over Mini Donuts admin login." />
+  <meta name="theme-color" content="#2D1B0E" />
+  <link rel="icon" type="image/png" href="media/go-logo.png" />
+  <link rel="apple-touch-icon" href="media/go-logo.png" />
+  <meta property="og:image" content="media/go-logo.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="media/go-logo.png" />
+  <title>Glazed Over Mini Donuts | Admin Login</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Shrikhand&family=Alfa+Slab+One&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/site.css" />
+  <link rel="stylesheet" href="css/admin-panel.css" />
+
+  <script src="js/consent.js"></script>
+  <script>
+    (function () {
+      var t = (window.GOMStorage && window.GOMStorage.getItem('gom-theme', 'preferences')) || 'auto';
+      var r = t === 'auto'
+        ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
+        : t;
+      document.documentElement.setAttribute('data-theme', r);
+      document.documentElement.setAttribute('data-theme-pref', t);
+    })();
+  </script>
+  <script>document.documentElement.classList.remove('no-js');</script>
+</head>
+<body class="admin-page" data-admin-view="login">
+  <a href="#admin-main" class="skip-link">Skip to admin content</a>
+  <div id="theme-live" role="status" aria-live="polite" aria-atomic="true" class="sr-only"></div>
+
+  <header class="admin-header">
+    <div class="container admin-header-inner">
+      <a href="index.html" class="nav-logo" aria-label="Return to website home">
+        <img src="media/go-logo.png" class="nav-logo-image" alt="Glazed Over Mini Donuts logo" width="278" height="53">
+        <span class="nav-logo-text">Glazed Over<span><br>Admin</span></span>
+      </a>
+
+      <div class="admin-header-actions">
+        <a href="index.html" class="btn btn-outline admin-back-link">← Back to Site</a>
+        <button id="theme-toggle" aria-label="System theme (auto)" title="Cycle theme" data-current-theme="auto">
+          <span class="sr-only">System theme (auto)</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="admin-main" class="admin-main">
+    <section class="admin-hero container">
+      <span class="section-label">Private access</span>
+      <h1 class="section-title">Admin <span>Sign In</span></h1>
+      <p class="section-subtitle admin-subtitle">
+        This page is only the sign-in screen. The editor dashboard now lives on its own page after login.
+      </p>
+    </section>
+
+    <section id="admin-auth-view" class="container admin-auth-view">
+      <div class="admin-auth-grid">
+        <div class="admin-card admin-login-card">
+          <div class="admin-card-head">
+            <div>
+              <span class="section-label">Sign in</span>
+              <h2 class="admin-card-title">Admin Login</h2>
+            </div>
+            <span id="auth-mode-badge" class="admin-chip">Firebase auth</span>
+          </div>
+
+          <form id="admin-login-form" class="admin-form-stack" novalidate>
+            <label class="admin-field">
+              <span id="admin-login-identifier-label">Email</span>
+              <input type="email" name="username" autocomplete="username" required placeholder="owner@example.com" />
+            </label>
+            <label class="admin-field">
+              <span>Password</span>
+              <input type="password" name="password" autocomplete="current-password" required placeholder="••••••••" />
+            </label>
+            <button type="submit" class="btn btn-primary">Sign In</button>
+            <p id="admin-auth-help" class="admin-help-text">
+              Sign in with your Firebase Authentication email and password.
+            </p>
+          </form>
+        </div>
+
+        <div class="admin-card admin-auth-notes">
+          <span class="section-label">How auth works</span>
+          <h2 class="admin-card-title">Username / password setup</h2>
+          <ul class="admin-bullet-list">
+            <li>The website should send the username and password to a secure backend login endpoint.</li>
+            <li>The backend verifies the password hash and returns a secure session or token.</li>
+            <li>The browser stores only the session/token, not the real password.</li>
+            <li>User creation, password resets, and roles should happen on the backend or auth provider.</li>
+          </ul>
+          <div class="admin-note-box">
+            Recommended later: Supabase Auth, Firebase Auth, or a custom backend using hashed passwords with bcrypt/Argon2.
+          </div>
+        </div>
+      </div>
+      <p id="admin-auth-message" class="admin-inline-message" role="status" aria-live="polite"></p>
+    </section>
+
+  </main>
+
+  <script src="js/site-config.js"></script>
+  <script src="js/theme-manager.js"></script>
+  <script type="module" src="js/admin-app.js"></script>
+</body>
+</html>

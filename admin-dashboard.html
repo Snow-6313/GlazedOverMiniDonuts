@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Glazed Over Mini Donuts admin dashboard." />
+  <meta name="theme-color" content="#2D1B0E" />
+  <link rel="icon" type="image/png" href="media/go-logo.png" />
+  <link rel="apple-touch-icon" href="media/go-logo.png" />
+  <meta property="og:image" content="media/go-logo.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="media/go-logo.png" />
+  <title>Glazed Over Mini Donuts | Admin Dashboard</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Shrikhand&family=Alfa+Slab+One&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/site.css" />
+  <link rel="stylesheet" href="css/admin-panel.css" />
+
+  <script src="js/consent.js"></script>
+  <script>
+    (function () {
+      var t = (window.GOMStorage && window.GOMStorage.getItem('gom-theme', 'preferences')) || 'auto';
+      var r = t === 'auto'
+        ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
+        : t;
+      document.documentElement.setAttribute('data-theme', r);
+      document.documentElement.setAttribute('data-theme-pref', t);
+    })();
+  </script>
+  <script>document.documentElement.classList.remove('no-js');</script>
+</head>
+<body class="admin-page" data-admin-view="dashboard">
+  <a href="#admin-main" class="skip-link">Skip to admin content</a>
+  <div id="theme-live" role="status" aria-live="polite" aria-atomic="true" class="sr-only"></div>
+
+  <header class="admin-header">
+    <div class="container admin-header-inner">
+      <a href="index.html" class="nav-logo" aria-label="Return to website home">
+        <img src="media/go-logo.png" class="nav-logo-image" alt="Glazed Over Mini Donuts logo" width="278" height="53">
+        <span class="nav-logo-text">Glazed Over<span><br>Dashboard</span></span>
+      </a>
+
+      <div class="admin-header-actions">
+        <a href="index.html" class="btn btn-outline admin-back-link">← Back to Site</a>
+        <button id="theme-toggle" aria-label="System theme (auto)" title="Cycle theme" data-current-theme="auto">
+          <span class="sr-only">System theme (auto)</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="admin-main" class="admin-main">
+    <section class="admin-hero container">
+      <span class="section-label">Private dashboard</span>
+      <h1 class="section-title">Content <span>Control Center</span></h1>
+      <p class="section-subtitle admin-subtitle">
+        Manage flavors, events, monthly specials, beverages, and visuals from one place. This page is separate from the login screen, but real protection still depends on backend authentication.
+      </p>
+    </section>
+
+    <section id="admin-dashboard-view" class="container" aria-label="Admin dashboard">
+      <div class="admin-shell">
+        <aside class="admin-sidebar admin-card">
+          <div>
+            <span class="section-label">Navigation</span>
+            <h2 class="admin-card-title">Dashboard</h2>
+          </div>
+
+          <nav class="admin-tablist" aria-label="Dashboard sections">
+            <button class="admin-tab is-active" type="button" data-tab="flavors">Flavors</button>
+            <button class="admin-tab" type="button" data-tab="events">Events</button>
+            <button class="admin-tab" type="button" data-tab="monthly">Monthly Jam</button>
+            <button class="admin-tab" type="button" data-tab="beverages">Drinks</button>
+            <button class="admin-tab" type="button" data-tab="settings">Settings</button>
+          </nav>
+
+          <div class="admin-sidebar-foot">
+            <div class="admin-current-user">
+              <span class="admin-user-label">Signed in as</span>
+              <strong id="admin-user-name">—</strong>
+            </div>
+            <button id="admin-logout" type="button" class="btn btn-dark admin-logout-btn">Log Out</button>
+          </div>
+        </aside>
+
+        <div class="admin-workspace">
+          <div class="admin-toolbar admin-card">
+            <div class="admin-toolbar-copy">
+              <span class="section-label">Overview</span>
+              <h2 class="admin-card-title">Content Summary</h2>
+            </div>
+            <div class="admin-toolbar-statuses">
+              <span id="admin-sync-mode" class="admin-chip">Local storage fallback</span>
+              <span id="admin-session-state" class="admin-chip admin-chip-soft">Session active</span>
+            </div>
+          </div>
+
+          <div class="admin-summary-grid">
+            <article class="admin-summary-card admin-card">
+              <span class="admin-summary-label">Flavors</span>
+              <strong id="summary-flavors" class="admin-summary-value">0</strong>
+              <span class="admin-summary-meta">Menu and homepage preview items</span>
+            </article>
+            <article class="admin-summary-card admin-card">
+              <span class="admin-summary-label">Events</span>
+              <strong id="summary-events" class="admin-summary-value">0</strong>
+              <span class="admin-summary-meta">Home and contact page listings</span>
+            </article>
+            <article class="admin-summary-card admin-card">
+              <span class="admin-summary-label">Monthly</span>
+              <strong id="summary-monthly" class="admin-summary-value">0</strong>
+              <span class="admin-summary-meta">Limited-time monthly specials</span>
+            </article>
+            <article class="admin-summary-card admin-card">
+              <span class="admin-summary-label">Drinks</span>
+              <strong id="summary-beverages" class="admin-summary-value">0</strong>
+              <span class="admin-summary-meta">Beverage lineup and pricing</span>
+            </article>
+          </div>
+
+          <p id="admin-global-message" class="admin-inline-message" role="status" aria-live="polite"></p>
+
+          <section class="admin-panel admin-card is-active" data-panel="flavors">
+            <div class="admin-panel-head">
+              <div>
+                <span class="section-label">Flavors</span>
+                <h3 class="admin-card-title">Edit donut flavors</h3>
+              </div>
+              <div class="admin-panel-actions">
+                <button class="btn btn-outline admin-section-sync" type="button" data-sync-section="flavors">Sync Section</button>
+                <button class="btn btn-primary admin-section-new" type="button" data-new-section="flavors">Add Flavor</button>
+              </div>
+            </div>
+            <div class="admin-editor-layout">
+              <div class="admin-list-pane">
+                <div class="admin-list-head">
+                  <strong>Flavor list</strong>
+                  <span id="status-flavors" class="admin-list-status">Ready</span>
+                </div>
+                <div class="admin-item-list" data-list="flavors"></div>
+              </div>
+              <form class="admin-editor-pane" data-editor="flavors"></form>
+            </div>
+          </section>
+
+          <section class="admin-panel admin-card" data-panel="events">
+            <div class="admin-panel-head">
+              <div>
+                <span class="section-label">Events</span>
+                <h3 class="admin-card-title">Edit upcoming events</h3>
+              </div>
+              <div class="admin-panel-actions">
+                <button class="btn btn-outline admin-section-sync" type="button" data-sync-section="events">Sync Section</button>
+                <button class="btn btn-primary admin-section-new" type="button" data-new-section="events">Add Event</button>
+              </div>
+            </div>
+            <div class="admin-editor-layout">
+              <div class="admin-list-pane">
+                <div class="admin-list-head">
+                  <strong>Event list</strong>
+                  <span id="status-events" class="admin-list-status">Ready</span>
+                </div>
+                <div class="admin-item-list" data-list="events"></div>
+              </div>
+              <form class="admin-editor-pane" data-editor="events"></form>
+            </div>
+          </section>
+
+          <section class="admin-panel admin-card" data-panel="monthly">
+            <div class="admin-panel-head">
+              <div>
+                <span class="section-label">Monthly Jam</span>
+                <h3 class="admin-card-title">Edit monthly specials</h3>
+              </div>
+              <div class="admin-panel-actions">
+                <button class="btn btn-outline admin-section-sync" type="button" data-sync-section="monthly">Sync Section</button>
+                <button class="btn btn-primary admin-section-new" type="button" data-new-section="monthly">Add Special</button>
+              </div>
+            </div>
+            <div class="admin-editor-layout">
+              <div class="admin-list-pane">
+                <div class="admin-list-head">
+                  <strong>Monthly list</strong>
+                  <span id="status-monthly" class="admin-list-status">Ready</span>
+                </div>
+                <div class="admin-item-list" data-list="monthly"></div>
+              </div>
+              <form class="admin-editor-pane" data-editor="monthly"></form>
+            </div>
+          </section>
+
+          <section class="admin-panel admin-card" data-panel="beverages">
+            <div class="admin-panel-head">
+              <div>
+                <span class="section-label">Drinks</span>
+                <h3 class="admin-card-title">Edit beverages</h3>
+              </div>
+              <div class="admin-panel-actions">
+                <button class="btn btn-outline admin-section-sync" type="button" data-sync-section="beverages">Sync Section</button>
+                <button class="btn btn-primary admin-section-new" type="button" data-new-section="beverages">Add Drink</button>
+              </div>
+            </div>
+            <div class="admin-editor-layout">
+              <div class="admin-list-pane">
+                <div class="admin-list-head">
+                  <strong>Drink list</strong>
+                  <span id="status-beverages" class="admin-list-status">Ready</span>
+                </div>
+                <div class="admin-item-list" data-list="beverages"></div>
+              </div>
+              <form class="admin-editor-pane" data-editor="beverages"></form>
+            </div>
+          </section>
+
+          <section class="admin-panel admin-card" data-panel="settings">
+            <div class="admin-panel-head">
+              <div>
+                <span class="section-label">Settings</span>
+                <h3 class="admin-card-title">Backend hookup checklist</h3>
+              </div>
+            </div>
+            <div class="admin-settings-grid">
+              <article class="admin-card admin-setting-card">
+                <strong>Authentication endpoints</strong>
+                <dl class="admin-settings-list">
+                  <div><dt>Login</dt><dd id="endpoint-login">Not set</dd></div>
+                  <div><dt>Session</dt><dd id="endpoint-session">Not set</dd></div>
+                  <div><dt>Logout</dt><dd id="endpoint-logout">Not set</dd></div>
+                  <div><dt>Users</dt><dd id="endpoint-users">Not set</dd></div>
+                </dl>
+              </article>
+              <article class="admin-card admin-setting-card">
+                <strong>Content endpoints</strong>
+                <dl class="admin-settings-list">
+                  <div><dt>Flavors</dt><dd id="endpoint-flavors">Not set</dd></div>
+                  <div><dt>Events</dt><dd id="endpoint-events">Not set</dd></div>
+                  <div><dt>Monthly</dt><dd id="endpoint-monthly">Not set</dd></div>
+                  <div><dt>Beverages</dt><dd id="endpoint-beverages">Not set</dd></div>
+                  <div><dt>Media upload</dt><dd id="endpoint-media-upload">Not set</dd></div>
+                  <div><dt>Media library</dt><dd id="endpoint-media-library">Not set</dd></div>
+                  <div><dt>Media delete</dt><dd id="endpoint-media-delete">Not set</dd></div>
+                </dl>
+              </article>
+              <article class="admin-card admin-setting-card admin-setting-note">
+                <strong>Recommended auth flow</strong>
+                <ol class="admin-number-list">
+                  <li>POST username/password to the login endpoint over HTTPS.</li>
+                  <li>Backend checks hashed password and returns a secure session token.</li>
+                  <li>Frontend stores the token and sends it with later save requests.</li>
+                  <li>Use the users endpoint later for admin creation, resets, and roles.</li>
+                </ol>
+              </article>
+            </div>
+          </section>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="js/site-config.js"></script>
+  <script src="js/theme-manager.js"></script>
+  <script type="module" src="js/admin-app.js"></script>
+</body>
+</html>
