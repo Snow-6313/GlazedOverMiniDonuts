@@ -146,7 +146,7 @@ window.SiteConfig = {
      enforced by Firebase Auth, Firestore rules, and Storage rules.
      -------------------------------------------------------------- */
   firebase: {
-    apiKey: 'AIzaSyB80Xu4fFSrRl23UfvN2kCagQnF8I2dyF0',
+    apiKey: (window.PrivateSiteConfig && window.PrivateSiteConfig.firebaseApiKey) || '',
     authDomain: 'glazedoverminidonuts.firebaseapp.com',
     projectId: 'glazedoverminidonuts',
     storageBucket: 'glazedoverminidonuts.firebasestorage.app',
