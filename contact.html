@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en" class="no-js">
 <head>
   <meta charset="UTF-8" />
@@ -164,6 +164,9 @@
         </p>
 
         <form id="contact-form" novalidate autocomplete="on">
+          <input type="hidden" name="access_key" value="c5879482-509c-4678-9958-d0f5d6d0b442" />
+          <input type="hidden" name="subject" value="New Message – Glazed Over Mini Donuts" />
+          <input type="hidden" name="from_name" value="Glazed Over Website" />
           <div class="form-row">
             <div class="form-group">
               <label class="form-label" for="first-name" data-i18n="contact_fn">First Name</label>
@@ -187,14 +190,14 @@
 
           <div class="form-group">
             <label class="form-label" for="subject" data-i18n="contact_subject">What's on your mind?</label>
-            <select class="form-select" id="subject" name="subject" required>
+            <select class="form-select" id="subject" name="inquiry-type" required>
               <option value="" disabled selected data-i18n="contact_subj_ph">Choose a topic…</option>
-              <option value="general" data-i18n="contact_subj_gen">General Question</option>
-              <option value="event-booking" data-i18n="contact_subj_event">Event / Catering Inquiry</option>
-              <option value="location" data-i18n="contact_subj_loc">Where Are You This Week?</option>
-              <option value="menu" data-i18n="contact_subj_menu">Menu Question</option>
-              <option value="feedback" data-i18n="contact_subj_fb">Feedback &amp; Love</option>
-              <option value="other" data-i18n="contact_subj_other">Something Else</option>
+              <option value="General Question" data-i18n="contact_subj_gen">General Question</option>
+              <option value="Event / Catering Inquiry" data-i18n="contact_subj_event">Event / Catering Inquiry</option>
+              <option value="Where Are You This Week?" data-i18n="contact_subj_loc">Where Are You This Week?</option>
+              <option value="Menu Question" data-i18n="contact_subj_menu">Menu Question</option>
+              <option value="Feedback &amp; Love" data-i18n="contact_subj_fb">Feedback &amp; Love</option>
+              <option value="Something Else" data-i18n="contact_subj_other">Something Else</option>
             </select>
           </div>
 
@@ -250,7 +253,7 @@
           <span class="form-success-icon">🎉</span>
           <h3 style="font-family:var(--ff-retro);font-size:1.4rem;color:var(--clr-dark);margin-bottom:.5rem;" data-i18n="contact_success_h">Groovy! Message Sent!</h3>
           <p style="color:var(--clr-muted);font-size:.95rem;line-height:1.6;" data-i18n="contact_success_p">
-            Thanks for reaching out! We'll get back to you real soon. In the meantime, follow us on social media to stay in the loop! ✌️❤️🍩
+            Thanks for reaching out! We'll get back to you real soon. In the meantime, follow us on social media to stay in the loop! ✌️+❤️+🍩
           </p>
           <div style="margin-top:1.5rem;display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
             <a href="menu.html" class="btn btn-primary" data-i18n="contact_success_menu">See the Menu</a>
@@ -381,7 +384,135 @@
   </div>
 </section>
 
+<!-- DATA DELETION TRIGGER BAR -->
+<div style="background:#2D1B0E;padding:3rem 0;">
+  <div class="container">
+    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1.5rem;max-width:860px;margin:0 auto;">
+
+      <div style="display:flex;align-items:center;gap:1.1rem;">
+        <div style="width:46px;height:46px;border-radius:50%;background:rgba(244,167,65,.15);border:1px solid rgba(244,167,65,.3);display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0;" aria-hidden="true">🔒</div>
+        <div>
+          <div style="font-family:var(--ff-retro,'Shrikhand',serif);font-size:1.05rem;color:#FFF8F0;letter-spacing:.01em;line-height:1.3;">Your Privacy Rights</div>
+          <div style="color:rgba(255,248,240,.55);font-size:.85rem;margin-top:.25rem;line-height:1.5;">Request deletion or access of your personal data at any time.</div>
+        </div>
+      </div>
+
+      <button id="open-deletion-modal"
+              style="flex-shrink:0;font-family:var(--ff-retro,'Shrikhand',serif);font-size:.9rem;letter-spacing:.05em;padding:.7rem 1.6rem;border-radius:999px;background:transparent;border:2px solid rgba(244,167,65,.7);color:#f4a741;cursor:pointer;transition:background .2s,color .2s,border-color .2s;"
+              onmouseover="this.style.background='#f4a741';this.style.color='#2D1B0E';this.style.borderColor='#f4a741';"
+              onmouseout="this.style.background='transparent';this.style.color='#f4a741';this.style.borderColor='rgba(244,167,65,.7)';">
+        Submit a Data Request
+      </button>
+
+    </div>
+  </div>
+</div>
+
 </main>
+
+<!-- DATA DELETION MODAL -->
+<div id="deletion-modal" role="dialog" aria-modal="true" aria-labelledby="deletion-modal-heading"
+     style="display:none;position:fixed;inset:0;z-index:9000;padding:1rem;">
+  <!-- Backdrop -->
+  <div id="deletion-backdrop" style="position:absolute;inset:0;background:rgba(0,0,0,.72);backdrop-filter:blur(4px);"></div>
+
+  <!-- Panel -->
+  <div style="position:relative;z-index:1;max-width:640px;margin:auto;max-height:calc(100vh - 2rem);overflow-y:auto;background:var(--clr-card,#fff);border-radius:var(--radius-xl,1.25rem);padding:2.25rem;box-shadow:0 24px 64px rgba(0,0,0,.45);">
+
+    <!-- Close button -->
+    <button id="close-deletion-modal" aria-label="Close"
+            style="position:absolute;top:1rem;right:1rem;background:none;border:none;cursor:pointer;font-size:1.4rem;line-height:1;color:var(--clr-muted);padding:.35rem .5rem;border-radius:.5rem;transition:color .2s;"
+            onmouseover="this.style.color='var(--clr-text)'" onmouseout="this.style.color='var(--clr-muted)'">✕</button>
+
+    <!-- Header -->
+    <div style="display:flex;align-items:center;gap:.75rem;margin-bottom:.4rem;">
+      <span style="font-size:1.5rem;" aria-hidden="true">🔒</span>
+      <span style="font-size:.75rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--clr-primary);">Privacy &amp; Your Rights</span>
+    </div>
+    <h2 id="deletion-modal-heading" style="font-family:var(--ff-retro);font-size:1.6rem;color:var(--clr-dark);margin-bottom:.6rem;">
+      Data Deletion Request
+    </h2>
+    <p style="color:var(--clr-muted);font-size:.9rem;line-height:1.7;margin-bottom:1.75rem;">
+      You have the right to request deletion of any personal data we may hold about you
+      (e.g. information submitted through our contact form). We'll process your request
+      within <strong>30 days</strong> in accordance with applicable privacy law (CCPA / applicable state law).
+    </p>
+
+    <!-- Form -->
+    <form id="deletion-form" novalidate autocomplete="on" style="display:flex;flex-direction:column;gap:1.15rem;">
+      <input type="hidden" name="access_key" value="c5879482-509c-4678-9958-d0f5d6d0b442" />
+      <input type="hidden" name="subject" value="Data Request – Glazed Over Mini Donuts" />
+      <input type="hidden" name="from_name" value="Glazed Over Website" />
+
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label" for="del-first-name">First Name <span style="color:var(--clr-secondary);">*</span></label>
+          <input class="form-input" type="text" id="del-first-name" name="del-first-name" placeholder="Peace" required autocomplete="given-name" />
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="del-last-name">Last Name <span style="color:var(--clr-secondary);">*</span></label>
+          <input class="form-input" type="text" id="del-last-name" name="del-last-name" placeholder="Love" required autocomplete="family-name" />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="del-email">Email Address <span style="color:var(--clr-secondary);">*</span></label>
+        <input class="form-input" type="email" id="del-email" name="del-email" placeholder="you@groovy.com" required autocomplete="email" />
+        <p style="font-size:.82rem;color:var(--clr-muted);margin-top:.4rem;line-height:1.5;">
+          Must match the email you used when contacting us so we can locate your data.
+        </p>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="del-request-type">Request Type <span style="color:var(--clr-secondary);">*</span></label>
+        <select class="form-select" id="del-request-type" name="del-request-type" required>
+          <option value="" disabled selected>Choose a request type…</option>
+          <option value="Delete All My Personal Data">Delete All My Personal Data</option>
+          <option value="Delete Contact Form Submission(s) Only">Delete Contact Form Submission(s) Only</option>
+          <option value="Access / Export My Data">Access / Export My Data</option>
+          <option value="Correct My Data">Correct My Data</option>
+          <option value="Opt Out of Future Communications">Opt Out of Any Future Communications</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="del-notes">Additional Details <span style="color:var(--clr-muted);font-weight:400;">(optional)</span></label>
+        <textarea class="form-textarea" id="del-notes" name="del-notes" rows="3"
+                  placeholder="Any additional context to help us locate or process your request…"></textarea>
+      </div>
+
+      <div style="display:flex;align-items:flex-start;gap:.75rem;background:rgba(244,167,65,.08);border:1px solid rgba(244,167,65,.25);border-radius:var(--radius-md,.75rem);padding:.9rem 1rem;">
+        <input type="checkbox" id="del-confirm" name="del-confirm" required
+               style="width:1.1rem;height:1.1rem;margin-top:.2rem;flex-shrink:0;accent-color:var(--clr-primary,#f4a741);cursor:pointer;" />
+        <label for="del-confirm" style="font-size:.88rem;color:var(--clr-text);line-height:1.55;cursor:pointer;">
+          I confirm the information above is accurate and I am the person (or authorized representative)
+          whose data I am requesting to manage. I understand deletion requests may be
+          <strong>irreversible</strong>.
+        </label>
+      </div>
+
+      <button class="btn btn-primary" type="submit" id="deletion-submit"
+              style="font-size:1rem;padding:.9rem 2rem;width:100%;margin-top:.25rem;">
+        🔒 Submit Request
+      </button>
+    </form>
+
+    <!-- Success state -->
+    <div id="deletion-success" role="alert" style="display:none;text-align:center;padding:1rem 0;">
+      <div style="font-size:3rem;margin-bottom:1rem;">✅</div>
+      <h3 style="font-family:var(--ff-retro);font-size:1.4rem;color:var(--clr-dark);margin-bottom:.5rem;">Request Received!</h3>
+      <p style="color:var(--clr-muted);font-size:.9rem;line-height:1.6;max-width:400px;margin:0 auto 1.5rem;">
+        We've received your data request and will respond within <strong>30 days</strong>.
+        A confirmation email will be sent to the address you provided.
+      </p>
+      <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
+        <a href="privacy.html" class="btn btn-outline" style="font-size:.9rem;">View Privacy Policy</a>
+        <button id="close-deletion-success" class="btn btn-primary" style="font-size:.9rem;">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
 
 <!-- FOOTER -->
 <footer id="site-footer" role="contentinfo">
@@ -389,7 +520,7 @@
     <div class="footer-grid">
       <div class="footer-brand">
         <span class="nav-logo-text">Glazed Over<br><small style="font-size:.7em;opacity:.7;">Mini Donuts</small></span>
-        <p class="footer-tagline" data-i18n="footer_tagline">Old-school feel-good mini donuts serving the Phoenix West Valley. ✌️❤️🍩</p>
+        <p class="footer-tagline" data-i18n="footer_tagline">Old-school feel-good mini donuts serving the Phoenix West Valley. ✌️+❤️+🍩</p>
         <div class="footer-socials">
           <a href="https://www.instagram.com/glazed.over.mini.donuts/" target="_blank" rel="noopener" class="footer-social" aria-label="Instagram"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></a>
           <a href="https://www.facebook.com/profile.php?id=61578935101657" target="_blank" rel="noopener" class="footer-social" aria-label="Facebook"><svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>

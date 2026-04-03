@@ -50,8 +50,8 @@ const t   = (key, fallback = '') => (window.GOMI18N && typeof window.GOMI18N.t =
 
   // Mobile hamburger
   if (toggle && navLinks && overlay) {
-    const openMenu  = () => { toggle.classList.add('open'); navLinks.classList.add('open'); overlay.classList.add('show'); document.body.style.overflow = 'hidden'; };
-    const closeMenu = () => { toggle.classList.remove('open'); navLinks.classList.remove('open'); overlay.classList.remove('show'); document.body.style.overflow = ''; };
+    const openMenu  = () => { toggle.classList.add('open'); toggle.setAttribute('aria-expanded', 'true'); navLinks.classList.add('open'); overlay.classList.add('show'); document.body.style.overflow = 'hidden'; };
+    const closeMenu = () => { toggle.classList.remove('open'); toggle.setAttribute('aria-expanded', 'false'); navLinks.classList.remove('open'); overlay.classList.remove('show'); document.body.style.overflow = ''; };
 
     toggle.addEventListener('click', () => toggle.classList.contains('open') ? closeMenu() : openMenu());
     overlay.addEventListener('click', closeMenu);
@@ -625,15 +625,122 @@ const t   = (key, fallback = '') => (window.GOMI18N && typeof window.GOMI18N.t =
     });
     if (!valid) return;
 
-    // Simulate sending (replace with real endpoint)
+    // Send via Web3Forms
     submit.textContent = t('contact_sending', 'Sending...');
     submit.disabled = true;
 
-    setTimeout(() => {
-      form.style.display = 'none';
-      if (success) success.classList.add('show');
-      launchConfetti();
-    }, 1400);
+    const data = new FormData(form);
+    fetch('https://api.web3forms.com/submit', {
+      method: 'POST',
+      body: data
+    })
+      .then(res => res.json())
+      .then(json => {
+        if (json.success) {
+          form.style.display = 'none';
+          if (success) success.classList.add('show');
+          launchConfetti();
+        } else {
+          submit.textContent = t('contact_send', '🍩 Send It!');
+          submit.disabled = false;
+          alert('Something went wrong. Please try again or reach out on social media.');
+        }
+      })
+      .catch(() => {
+        submit.textContent = t('contact_send', '🍩 Send It!');
+        submit.disabled = false;
+        alert('Network error. Please check your connection and try again.');
+      });
+  });
+})();
+
+/* ======================================
+   DATA DELETION MODAL
+   ====================================== */
+(function initDeletionModal() {
+  const modal      = qs('#deletion-modal');
+  if (!modal) return;
+
+  const openBtn    = qs('#open-deletion-modal');
+  const closeBtn   = qs('#close-deletion-modal');
+  const backdrop   = qs('#deletion-backdrop');
+  const form       = qs('#deletion-form');
+  const submitBtn  = qs('#deletion-submit');
+  const successDiv = qs('#deletion-success');
+  const closeSucc  = qs('#close-deletion-success');
+
+  let previousFocus = null;
+
+  function openModal() {
+    previousFocus = document.activeElement;
+    modal.style.display = 'flex';
+    modal.style.alignItems = 'center';
+    modal.style.justifyContent = 'center';
+    document.body.style.overflow = 'hidden';
+    // Focus the close button
+    setTimeout(() => closeBtn && closeBtn.focus(), 50);
+  }
+
+  function closeModal() {
+    modal.style.display = 'none';
+    document.body.style.overflow = '';
+    if (previousFocus) previousFocus.focus();
+  }
+
+  if (openBtn)   openBtn.addEventListener('click', openModal);
+  if (closeBtn)  closeBtn.addEventListener('click', closeModal);
+  if (backdrop)  backdrop.addEventListener('click', closeModal);
+  if (closeSucc) closeSucc.addEventListener('click', closeModal);
+
+  // Close on Escape
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && modal.style.display !== 'none') closeModal();
+  });
+
+  // Form submission
+  if (!form) return;
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+
+    // Validate required fields
+    let valid = true;
+    qsa('[required]', form).forEach(field => {
+      if (field.type === 'checkbox') {
+        field.style.outline = field.checked ? '' : '2px solid var(--clr-secondary)';
+        if (!field.checked) valid = false;
+      } else if (!field.value.trim()) {
+        field.style.borderColor = 'var(--clr-secondary)';
+        valid = false;
+      } else {
+        field.style.borderColor = '';
+      }
+    });
+    if (!valid) return;
+
+    submitBtn.textContent = 'Sending...';
+    submitBtn.disabled = true;
+
+    const data = new FormData(form);
+    fetch('https://api.web3forms.com/submit', {
+      method: 'POST',
+      body: data
+    })
+      .then(res => res.json())
+      .then(json => {
+        if (json.success) {
+          form.style.display = 'none';
+          if (successDiv) successDiv.style.display = 'block';
+        } else {
+          submitBtn.textContent = '🔒 Submit Request';
+          submitBtn.disabled = false;
+          alert('Something went wrong. Please try again or contact us on social media.');
+        }
+      })
+      .catch(() => {
+        submitBtn.textContent = '🔒 Submit Request';
+        submitBtn.disabled = false;
+        alert('Network error. Please check your connection and try again.');
+      });
   });
 })();
 
@@ -706,11 +813,13 @@ function launchConfetti() {
   qsa('[data-copy]').forEach(btn => {
     btn.addEventListener('click', () => {
       const text = btn.dataset.copy;
-      navigator.clipboard?.writeText(text).then(() => {
-        const orig = btn.textContent;
-        btn.textContent = t('copy_success', '✔ Copied!');
-        setTimeout(() => { btn.textContent = orig; }, 1800);
-      }).catch(() => {/* clipboard not available */});
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(() => {
+          const orig = btn.textContent;
+          btn.textContent = t('copy_success', '✔ Copied!');
+          setTimeout(() => { btn.textContent = orig; }, 1800);
+        }).catch(() => {/* clipboard not available */});
+      }
     });
   });
 })();

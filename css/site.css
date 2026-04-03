@@ -51,6 +51,8 @@ html {
   scroll-behavior: smooth;
   font-size: 16px;
   -webkit-text-size-adjust: 100%;
+  -moz-text-size-adjust: 100%;
+  text-size-adjust: 100%;
   overflow-x: hidden;
 }
 
@@ -117,6 +119,7 @@ h1, h2, h3, h4, h5, h6,
 .btn::before {
   content: '';
   position: absolute;
+  top: 0; right: 0; bottom: 0; left: 0;
   inset: 0;
   background: rgba(255,255,255,.18);
   transform: scaleX(0);
@@ -181,6 +184,7 @@ h1, h2, h3, h4, h5, h6,
 /* Section Titles */
 .section-title {
   font-family: var(--ff-heading);
+  font-size: 2.5rem;
   font-size: clamp(2rem, 5vw, 3rem);
   line-height: 1.15;
   color: var(--clr-dark);
@@ -465,6 +469,7 @@ h1, h2, h3, h4, h5, h6,
     position: fixed;
     top: 0; right: -100%;
     width: min(320px, 80vw);
+    height: 100vh;
     height: 100dvh;
     background: var(--clr-light);
     flex-direction: column;
@@ -510,6 +515,7 @@ h1, h2, h3, h4, h5, h6,
 .nav-overlay {
   display: none;
   position: fixed;
+  top: 0; right: 0; bottom: 0; left: 0;
   inset: 0;
   background: rgba(45,27,14,.45);
   z-index: 998;
@@ -523,6 +529,7 @@ h1, h2, h3, h4, h5, h6,
    HERO SECTION
    ====================================== */
 #hero {
+  min-height: 100vh;
   min-height: 100dvh;
   background: linear-gradient(160deg, #fff5e0 0%, #fde8c6 50%, #fbd5b5 100%);
   position: relative;
@@ -538,6 +545,7 @@ h1, h2, h3, h4, h5, h6,
 #hero::before {
   content: '';
   position: absolute;
+  top: 0; right: 0; bottom: 0; left: 0;
   inset: 0;
   background-image:
     radial-gradient(circle at 20% 80%, rgba(244,167,65,.15) 0%, transparent 50%),
@@ -552,8 +560,11 @@ h1, h2, h3, h4, h5, h6,
   top: 50%;
   left: 58%;
   transform: translate(-50%, -50%);
+  width: 680px;
   width: clamp(500px, 60vw, 860px);
+  height: 680px;
   height: clamp(500px, 60vw, 860px);
+  background: radial-gradient(circle, rgba(244,167,65,.10) 0%, transparent 70%);
   background: conic-gradient(
     from 0deg,
     rgba(244,167,65,.14) 0deg,  rgba(253,244,227,.0) 10deg,
@@ -773,6 +784,7 @@ h1, h2, h3, h4, h5, h6,
 
 .sprinkle-layer {
   position: absolute;
+  top: 0; right: 0; bottom: 0; left: 0;
   inset: 0;
   z-index: 0;
   pointer-events: none;
@@ -964,6 +976,7 @@ h1, h2, h3, h4, h5, h6,
   top: -3rem; left: 0; right: 0;
   height: 3rem;
   background: var(--clr-dark);
+  -webkit-clip-path: ellipse(55% 100% at 50% 0%);
   clip-path: ellipse(55% 100% at 50% 0%);
 }
 
@@ -1221,6 +1234,7 @@ h1, h2, h3, h4, h5, h6,
 .flavor-card::before {
   content: '';
   position: absolute;
+  top: 0; right: 0; bottom: 0; left: 0;
   inset: 0;
   background: linear-gradient(135deg, rgba(244,167,65,.08), rgba(232,100,122,.08));
   opacity: 0;
@@ -1305,6 +1319,7 @@ h1, h2, h3, h4, h5, h6,
 #packs::before {
   content: '';
   position: absolute;
+  top: 0; right: 0; bottom: 0; left: 0;
   inset: 0;
   background-image:
     radial-gradient(circle at 10% 50%, rgba(244,167,65,.12) 0%, transparent 40%),
@@ -1316,6 +1331,7 @@ h1, h2, h3, h4, h5, h6,
 #packs::after {
   content: '';
   position: absolute;
+  top: 0; right: 0; bottom: 0; left: 0;
   inset: 0;
   background-image: radial-gradient(circle, rgba(255,255,255,.035) 1px, transparent 1px);
   background-size: 28px 28px;
@@ -1678,6 +1694,10 @@ h1, h2, h3, h4, h5, h6,
   box-shadow: var(--shadow-lg);
   position: relative;
 }
+/* aspect-ratio fallback for older browsers */
+@supports not (aspect-ratio: 4/5) {
+  .about-photo-frame { padding-bottom: 125%; height: 0; }
+}
 .about-photo-portrait {
   width: 100%;
   height: 100%;
@@ -1687,6 +1707,7 @@ h1, h2, h3, h4, h5, h6,
 .about-photo-frame::before {
   content: '';
   position: absolute;
+  top: 0; right: 0; bottom: 0; left: 0;
   inset: 0;
   background: linear-gradient(to bottom, transparent 60%, rgba(45,27,14,.15));
 }
@@ -2141,6 +2162,7 @@ h1, h2, h3, h4, h5, h6,
 .not-found-orbit::before {
   content: '';
   position: absolute;
+  top: 10px; right: 10px; bottom: 10px; left: 10px;
   inset: 10px;
   border-radius: 50%;
   border: 2px dashed rgba(244,167,65,.45);
@@ -2499,6 +2521,9 @@ h1, h2, h3, h4, h5, h6,
   position: relative;
   overflow: hidden;
 }
+@supports not (aspect-ratio: 3/4) {
+  .story-photo-frame { padding-bottom: 133.33%; height: 0; }
+}
 .story-values {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -2636,8 +2661,9 @@ h1, h2, h3, h4, h5, h6,
   color: var(--clr-text);
   transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
   outline: none;
-  appearance: none;
   -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
 }
 .form-input:focus,
 .form-select:focus,
@@ -2746,6 +2772,7 @@ h1, h2, h3, h4, h5, h6,
 /* ------ Loading Screen ------ */
 #loading-screen {
   position: fixed;
+  top: 0; right: 0; bottom: 0; left: 0;
   inset: 0;
   background: var(--clr-dark);
   z-index: 9999;
@@ -3044,6 +3071,14 @@ h1, h2, h3, h4, h5, h6,
    ACCESSIBILITY — FOCUS STYLES
    (WCAG 2.4.11 / 2.1 AA compliant)
    ====================================== */
+/* Base :focus fallback for browsers without :focus-visible support */
+a:focus,
+button:focus,
+.btn:focus {
+  outline: 3px solid var(--clr-primary);
+  outline-offset: 3px;
+}
+/* Enhanced :focus-visible for modern browsers */
 :focus-visible {
   outline: 3px solid var(--clr-primary);
   outline-offset: 3px;
@@ -3204,6 +3239,7 @@ button:focus-visible { outline-color: var(--clr-secondary); }
 
 .cookie-modal {
   position: fixed;
+  top: 0; right: 0; bottom: 0; left: 0;
   inset: 0;
   z-index: 1300;
   display: grid;
@@ -3217,6 +3253,7 @@ body.leave-site-modal-open {
 
 .leave-site-modal {
   position: fixed;
+  top: 0; right: 0; bottom: 0; left: 0;
   inset: 0;
   z-index: 1400;
   display: grid;
@@ -3226,6 +3263,7 @@ body.leave-site-modal-open {
 
 .leave-site-modal-backdrop {
   position: absolute;
+  top: 0; right: 0; bottom: 0; left: 0;
   inset: 0;
   z-index: 0;
   background: rgba(45,27,14,.52);
@@ -3319,6 +3357,7 @@ body.leave-site-modal-open {
 }
 
 .leave-site-modal-destination-url {
+  overflow-wrap: break-word;
   overflow-wrap: anywhere;
   color: var(--clr-text);
   font-size: .95rem;
@@ -3388,6 +3427,7 @@ body.leave-site-modal-open {
 
 .cookie-modal-backdrop {
   position: absolute;
+  top: 0; right: 0; bottom: 0; left: 0;
   inset: 0;
   background: rgba(45,27,14,.42);
   z-index: 0;
@@ -3653,6 +3693,7 @@ body.leave-site-modal-open {
 }
 [data-theme="dark"] .hero-sunburst {
   opacity: 1.8;
+  background: radial-gradient(circle, rgba(244,167,65,.12) 0%, transparent 70%);
   background: conic-gradient(
     from 0deg,
     rgba(244,167,65,.22) 0deg,  rgba(0,0,0,.0) 10deg,
@@ -4156,6 +4197,9 @@ body.leave-site-modal-open {
   object-fit: cover;
   aspect-ratio: 16/10;
   box-shadow: var(--shadow-lg);
+}
+@supports not (aspect-ratio: 16/10) {
+  .truck-photo { height: auto; }
 }
 
 /* ======================================

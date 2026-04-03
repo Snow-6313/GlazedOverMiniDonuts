@@ -491,15 +491,18 @@ import { getStorage, ref, uploadBytes, getDownloadURL } from 'https://www.gstati
     if (firebaseState.authResolved) return firebaseState.authUser;
     if (firebaseState.authPromise) return firebaseState.authPromise;
 
-    firebaseState.authPromise = new Promise((resolve) => {
-      const unsubscribe = onAuthStateChanged(firebaseState.auth, (user) => {
-        unsubscribe();
-        firebaseState.authResolved = true;
-        firebaseState.authUser = user;
-        syncSessionFromFirebase(user);
-        resolve(user);
-      });
-    });
+    // authStateReady() waits for Firebase to fully load the persisted auth
+    // state from localStorage before we read currentUser. Using onAuthStateChanged
+    // with an immediate unsubscribe is unreliable — it can fire with null on the
+    // first event while the token is still being restored from storage.
+    firebaseState.authPromise = (async () => {
+      await firebaseState.auth.authStateReady();
+      const user = firebaseState.auth.currentUser;
+      firebaseState.authResolved = true;
+      firebaseState.authUser = user;
+      syncSessionFromFirebase(user);
+      return user;
+    })();
 
     return firebaseState.authPromise;
   }
@@ -605,10 +608,32 @@ import { getStorage, ref, uploadBytes, getDownloadURL } from 'https://www.gstati
     if (window.location.protocol === 'file:') {
       return 'Firebase sync requires http://localhost or a real hosted domain. Opening admin pages directly from the file system will not sync.';
     }
-    if (code === 'permission-denied') {
-      return 'Firebase denied access. Check Firestore rules so authenticated admins can write to siteContent.';
+    // Auth sign-in errors
+    if (
+      code === 'auth/invalid-credential' ||
+      code === 'auth/user-not-found' ||
+      code === 'auth/wrong-password' ||
+      code === 'auth/invalid-email' ||
+      code === 'auth/invalid-login-credentials'
+    ) {
+      return 'Wrong email or password. Make sure you have a user set up in the Firebase console under Authentication → Users.';
     }
-    if (code === 'unauthenticated' || code === 'auth/network-request-failed') {
+    if (code === 'auth/user-disabled') {
+      return 'This account has been disabled. Re-enable it in the Firebase console under Authentication → Users.';
+    }
+    if (code === 'auth/too-many-requests') {
+      return 'Too many failed attempts. Wait a few minutes and try again, or reset the account in the Firebase console.';
+    }
+    if (code === 'auth/network-request-failed') {
+      return 'Network error. Check your internet connection and make sure this domain is allowed in Firebase Authentication settings.';
+    }
+    if (code === 'auth/operation-not-allowed') {
+      return 'Email/password sign-in is not enabled. Turn it on in the Firebase console under Authentication → Sign-in method.';
+    }
+    if (code === 'permission-denied' || code === 'auth/insufficient-permission') {
+      return 'Firebase denied access. Check Firestore rules so authenticated admins can read and write to siteContent.';
+    }
+    if (code === 'unauthenticated') {
       return 'Firebase session failed. Sign in again and verify your domain is allowed in Firebase Authentication.';
     }
     return fallbackAction + ': ' + (error && error.message ? error.message : 'Unknown Firebase error.');
@@ -775,48 +800,69 @@ import { getStorage, ref, uploadBytes, getDownloadURL } from 'https://www.gstati
       const draft = state.drafts[section];
       const config = sectionConfig[section];
       const heading = draft && getNested(draft, 'name.en') ? getNested(draft, 'name.en') : 'New ' + config.title;
-      const hasMediaEndpoint = authMode === 'firebase' || Boolean(mediaConfig.uploadEndpoint);
       const hasImage = Boolean(draft && draft.imageUrl);
+      const isDirty = Boolean(state.dirtySections[section]);
 
       const fields = config.fields.map((field) => fieldMarkup(field, getNested(draft, field.key))).join('');
 
       editor.innerHTML = [
-        '<div>',
-          '<span class="section-label">Editor</span>',
-          '<h4 class="admin-editor-title">' + escapeHtml(heading) + '</h4>',
-          '<p class="admin-panel-copy">Save your edits here first. Nothing publishes until you click Sync Section.</p>',
+        '<div class="admin-editor-header">',
+          '<div>',
+            '<span class="section-label">Editor</span>',
+            '<h4 class="admin-editor-title">' + escapeHtml(heading) + '</h4>',
+          '</div>',
+          isDirty ? '<span class="admin-dirty-badge">Unsaved changes</span>' : '',
         '</div>',
-        '<div class="admin-visual-preview">',
-          '<button type="button" class="admin-visual-launch' + (hasImage ? '' : ' is-disabled') + '" data-view-image-section="' + section + '"' + (hasImage ? '' : ' disabled') + ' aria-label="View uploaded image">',
-            renderVisualToken(draft, 'admin-visual-token'),
-          '</button>',
-          '<div class="admin-visual-copy">',
-            '<strong>Visual preview</strong>',
-            '<span class="admin-visual-label">Image first, emoji fallback</span>',
-            '<p class="admin-visual-note">Paste an image URL to show an image instead of the emoji.' + (hasMediaEndpoint ? ' File imports can be stored in the current media service.' : ' Media upload endpoints are still blank for later hookup.') + '</p>',
+        '<p class="admin-panel-copy admin-workflow-hint">',
+          '① Edit fields &nbsp;→&nbsp; ② <strong>Save ' + escapeHtml(config.title) + '</strong> &nbsp;→&nbsp; ③ <strong>Sync Section</strong> to publish.',
+        '</p>',
+
+        /* ---- Upload zone ---- */
+        '<div class="admin-upload-zone' + (hasImage ? ' has-image' : '') + '" data-upload-zone="' + section + '">',
+          '<label class="admin-upload-area" title="Click to choose an image file">',
+            '<input class="admin-file-input" type="file" accept="image/*" data-image-file="' + section + '">',
+            '<div class="admin-upload-prompt">',
+              '<span class="admin-upload-icon">🖼️</span>',
+              '<strong>Click to upload image</strong>',
+              '<span class="admin-upload-hint">PNG · JPG · WEBP · GIF — max 5 MB</span>',
+            '</div>',
+            '<img class="admin-upload-preview" src="" alt="" loading="eager">',
+          '</label>',
+          '<div class="admin-upload-overlay-btns">',
+            '<button type="button" class="btn btn-outline" data-view-image-section="' + section + '"' + (hasImage ? '' : ' disabled') + '>🔍 View photo</button>',
+            '<button type="button" class="btn btn-dark" data-clear-image-section="' + section + '"' + (hasImage ? '' : ' disabled') + '>✕ Remove</button>',
           '</div>',
         '</div>',
-        '<div class="admin-media-tools">',
-          '<label class="btn btn-outline admin-file-trigger">Import image file',
-            '<input class="admin-file-input" type="file" accept="image/*" data-image-file="' + section + '">',
-          '</label>',
-          '<button type="button" class="btn btn-outline" data-view-image-section="' + section + '"' + (hasImage ? '' : ' disabled') + '>View photo</button>',
-          '<button type="button" class="btn btn-outline" data-clear-image-section="' + section + '">Remove image</button>',
-        '</div>',
+
         '<div class="admin-editor-grid">' + fields + '</div>',
         '<div class="admin-editor-actions">',
           '<button type="submit" class="btn btn-primary">Save ' + escapeHtml(config.title) + '</button>',
           '<button type="button" class="btn btn-outline" data-duplicate-section="' + section + '">Duplicate</button>',
           '<button type="button" class="btn btn-outline" data-reset-section="' + section + '">Reset</button>',
           '<button type="button" class="btn btn-dark" data-delete-section="' + section + '">Delete</button>',
-        '</div>'
+        '</div>',
       ].join('');
+
+      /* Set image src imperatively — avoids embedding huge data URLs in innerHTML */
+      if (hasImage) {
+        const previewImg = qs('.admin-upload-preview', editor);
+        if (previewImg) {
+          previewImg.src = draft.imageUrl;
+          previewImg.alt = draft.imageAlt || getNested(draft, 'name.en') || '';
+        }
+      }
     });
   }
 
   function renderActivePanel() {
     qsa('.admin-tab').forEach((button) => {
-      button.classList.toggle('is-active', button.getAttribute('data-tab') === state.activeTab);
+      const tab = button.getAttribute('data-tab');
+      button.classList.toggle('is-active', tab === state.activeTab);
+      if (state.dirtySections && state.dirtySections[tab]) {
+        button.setAttribute('data-dirty', '');
+      } else {
+        button.removeAttribute('data-dirty');
+      }
     });
     qsa('.admin-panel').forEach((panel) => {
       panel.classList.toggle('is-active', panel.getAttribute('data-panel') === state.activeTab);
@@ -831,24 +877,53 @@ import { getStorage, ref, uploadBytes, getDownloadURL } from 'https://www.gstati
   }
 
   function renderEndpointSettings() {
-    const endpointMap = {
-      login: authConfig.loginEndpoint,
-      session: authConfig.sessionEndpoint,
-      logout: authConfig.logoutEndpoint,
-      users: authConfig.usersEndpoint,
-      flavors: apiConfig.flavorsEndpoint,
-      events: apiConfig.eventsEndpoint,
-      monthly: apiConfig.monthlyEndpoint,
-      beverages: apiConfig.beveragesEndpoint,
-      'media-upload': mediaConfig.uploadEndpoint,
-      'media-library': mediaConfig.libraryEndpoint,
-      'media-delete': mediaConfig.deleteEndpoint,
+    const fb = siteConfig.firebase || {};
+    const fbAdmin = adminConfig.firebase || {};
+    const projectId = fb.projectId || '';
+    const consoleBase = projectId ? 'https://console.firebase.google.com/project/' + projectId : '';
+
+    const valueMap = {
+      'auth-mode':      authMode === 'firebase' ? 'Firebase Auth' : authMode === 'remote' ? 'Remote / Custom' : authMode,
+      'fb-project':     projectId,
+      'fb-authdomain':  fb.authDomain,
+      'fb-appid':       fb.appId,
+      'fb-senderid':    fb.messagingSenderId,
+      'fb-apikey':      fb.apiKey ? 'Configured ✓' : '',
+      'fb-collection':  fbAdmin.contentCollection,
+      'fb-bucket':      fb.storageBucket,
+      'fb-uploads':     fbAdmin.uploadsFolder,
+      'fb-measurement': fb.measurementId,
+      'fb-storageurl':  fb.storageBucket ? 'https://firebasestorage.googleapis.com/v0/b/' + fb.storageBucket : '',
     };
 
-    Object.keys(endpointMap).forEach((key) => {
+    Object.keys(valueMap).forEach((key) => {
       const el = qs('#endpoint-' + key);
-      if (el) el.textContent = endpointMap[key] || 'Not set';
+      if (!el) return;
+      const val = valueMap[key];
+      if (val) {
+        el.textContent = val;
+        el.setAttribute('data-configured', 'true');
+        el.title = val;
+      } else {
+        el.textContent = 'Not configured';
+        el.setAttribute('data-configured', 'false');
+        el.removeAttribute('title');
+      }
     });
+
+    if (consoleBase) {
+      const links = {
+        'link-fb-console':   consoleBase + '/overview',
+        'link-fb-firestore': consoleBase + '/firestore',
+        'link-fb-auth':      consoleBase + '/authentication/users',
+        'link-fb-storage':   consoleBase + '/storage',
+        'link-fb-hosting':   consoleBase + '/hosting',
+      };
+      Object.keys(links).forEach((id) => {
+        const a = qs('#' + id);
+        if (a) a.href = links[id];
+      });
+    }
   }
 
   function ensurePhotoViewer() {
@@ -1119,6 +1194,9 @@ import { getStorage, ref, uploadBytes, getDownloadURL } from 'https://www.gstati
 
     updateDraftFromInputs(section);
 
+    const zone = qs('[data-upload-zone="' + section + '"]');
+    if (zone) zone.classList.add('is-uploading');
+
     try {
       const imageUrl = await readFileAsDataUrl(file);
 
@@ -1146,6 +1224,8 @@ import { getStorage, ref, uploadBytes, getDownloadURL } from 'https://www.gstati
     } catch (error) {
       setMessage('admin-global-message', error.message, true);
       updateSectionStatus(section, 'Image import failed');
+    } finally {
+      if (zone) zone.classList.remove('is-uploading');
     }
   }
 
@@ -1153,6 +1233,17 @@ import { getStorage, ref, uploadBytes, getDownloadURL } from 'https://www.gstati
     updateDraftFromInputs(section);
 
     if (!state.content[section]) return;
+
+    const syncBtn = qs('[data-sync-section="' + section + '"]');
+    if (syncBtn) { syncBtn.disabled = true; syncBtn.textContent = 'Syncing…'; }
+
+    const finish = (ok) => {
+      if (syncBtn) {
+        syncBtn.disabled = false;
+        syncBtn.textContent = ok ? '✓ Synced' : 'Sync Section';
+        if (ok) setTimeout(() => { if (syncBtn) syncBtn.textContent = 'Sync Section'; }, 2500);
+      }
+    };
 
     if (authMode === 'firebase') {
       try {
@@ -1168,9 +1259,11 @@ import { getStorage, ref, uploadBytes, getDownloadURL } from 'https://www.gstati
         clearSectionDirty(section, 'Synced successfully');
         renderAll();
         setMessage('admin-global-message', sectionConfig[section].title + ' synced successfully.', false);
+        finish(true);
       } catch (error) {
         updateSectionStatus(section, 'Sync failed');
         setMessage('admin-global-message', getFirebaseErrorMessage(error, 'Could not sync ' + section), true);
+        finish(false);
       }
       return;
     }
@@ -1181,6 +1274,7 @@ import { getStorage, ref, uploadBytes, getDownloadURL } from 'https://www.gstati
       clearSectionDirty(section, 'Synced successfully');
       renderAll();
       setMessage('admin-global-message', sectionConfig[section].title + ' synced successfully.', false);
+      finish(true);
       return;
     }
 
@@ -1195,9 +1289,11 @@ import { getStorage, ref, uploadBytes, getDownloadURL } from 'https://www.gstati
       clearSectionDirty(section, 'Synced successfully');
       renderAll();
       setMessage('admin-global-message', sectionConfig[section].title + ' synced successfully.', false);
+      finish(true);
     } catch (error) {
       updateSectionStatus(section, 'Sync failed');
       setMessage('admin-global-message', 'Could not sync ' + section + ': ' + error.message, true);
+      finish(false);
     }
   }
 
@@ -1211,6 +1307,19 @@ import { getStorage, ref, uploadBytes, getDownloadURL } from 'https://www.gstati
         }
 
         await ensureFirebase();
+
+        // Resolve auth state before making any Firestore requests.
+        // Without this, requests go out unauthenticated and get rejected
+        // by Firestore security rules even when the user is logged in.
+        const user = await waitForFirebaseAuth();
+        if (!user) {
+          Object.keys(sectionConfig).forEach((section) => updateSectionStatus(section, 'Not signed in'));
+          setMessage('admin-global-message', 'You are not signed in. Please sign in from the login page.', true);
+          return;
+        }
+
+        syncSessionFromFirebase(user);
+
         for (const section of Object.keys(sectionConfig)) {
           const snapshot = await getDoc(getFirebaseContentDoc(section));
           if (snapshot.exists()) {
@@ -1276,6 +1385,7 @@ import { getStorage, ref, uploadBytes, getDownloadURL } from 'https://www.gstati
         syncSessionFromFirebase(credential.user);
         goToDashboard();
       } catch (error) {
+        console.error('[Admin] Firebase sign-in failed — code:', error && error.code, '| message:', error && error.message);
         setMessage('admin-auth-message', getFirebaseErrorMessage(error, 'Login failed'), true);
       }
       return;
@@ -1466,33 +1576,11 @@ import { getStorage, ref, uploadBytes, getDownloadURL } from 'https://www.gstati
     state.content = loadStoredContent();
     state.session = authMode === 'firebase' ? null : loadSession();
 
-    if (authMode === 'firebase' && window.location.protocol === 'file:') {
-      const message = 'Firebase is configured, but this page is running from a file preview. Use http://localhost or your deployed domain for syncing.';
-      setMessage(isLoginPage() ? 'admin-auth-message' : 'admin-global-message', message, true);
-    }
-
     Object.keys(sectionConfig).forEach((section) => ensureSelection(section));
     bindEvents();
     renderAll();
 
-    if (isLoginPage()) {
-      if (authMode === 'firebase') {
-        const valid = await validateRemoteSession();
-        if (valid) goToDashboard();
-      } else if (state.session) {
-        const valid = await validateRemoteSession();
-        if (valid) goToDashboard();
-      }
-      return;
-    }
-
     if (isDashboardPage()) {
-      const valid = await validateRemoteSession();
-      if (!valid) {
-        goToLogin();
-        return;
-      }
-
       await loadRemoteContent();
       renderAll();
     }

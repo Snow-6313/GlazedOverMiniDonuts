@@ -42,22 +42,22 @@
     style.id = STYLE_ID;
     style.textContent = [
       '.gom-exit-modal[hidden]{display:none !important;}',
-      '.gom-exit-modal{position:fixed;inset:0;z-index:2147483000;display:grid;place-items:center;padding:16px;}',
+      '.gom-exit-modal{position:fixed;top:0;right:0;bottom:0;left:0;inset:0;z-index:2147483000;display:grid;place-items:center;padding:16px;}',
       '.gom-exit-modal,.gom-exit-modal *{box-sizing:border-box;}',
-      '.gom-exit-modal__backdrop{position:absolute;inset:0;background:rgba(45,27,14,.56);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);}',
+      '.gom-exit-modal__backdrop{position:absolute;top:0;right:0;bottom:0;left:0;inset:0;background:rgba(45,27,14,.56);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);}',
       '.gom-exit-modal__dialog{position:relative;z-index:1;width:min(560px,100%);padding:24px;border-radius:28px;background:linear-gradient(180deg,rgba(255,251,244,.99),rgba(253,244,227,.99));border:1px solid rgba(45,27,14,.10);box-shadow:0 24px 70px rgba(45,27,14,.28);color:#3A2110;pointer-events:auto;font-family:Shrikhand,cursive;}',
       '.gom-exit-modal__close{position:absolute;top:14px;right:14px;width:42px;height:42px;border-radius:999px;border:1px solid rgba(45,27,14,.12);background:rgba(255,255,255,.94);color:#2D1B0E;font-size:26px;line-height:1;cursor:pointer;}',
       '.gom-exit-modal__badge{display:inline-flex;align-items:center;justify-content:center;width:52px;height:52px;border-radius:999px;background:linear-gradient(135deg,rgba(244,167,65,.18),rgba(232,100,122,.22));color:#E8647A;font-size:24px;margin-bottom:12px;pointer-events:none;}',
       '.gom-exit-modal__eyebrow{margin:0 0 6px;color:#E8647A;font-size:12px;letter-spacing:.16em;text-transform:uppercase;}',
-      '.gom-exit-modal__title{margin:0 0 10px;color:#2D1B0E;font-size:clamp(28px,4vw,46px);line-height:1.02;}',
+      '.gom-exit-modal__title{margin:0 0 10px;color:#2D1B0E;font-size:36px;font-size:clamp(28px,4vw,46px);line-height:1.02;}',
       '.gom-exit-modal__body{margin:0 0 16px;color:#8A6A50;font-size:18px;line-height:1.45;}',
       '.gom-exit-modal__destination{display:grid;gap:6px;margin-bottom:14px;padding:14px 16px;border-radius:18px;background:rgba(255,255,255,.82);border:1px solid rgba(45,27,14,.08);}',
       '.gom-exit-modal__label{font-size:13px;letter-spacing:.10em;text-transform:uppercase;color:#2D1B0E;}',
-      '.gom-exit-modal__url{font-size:16px;line-height:1.5;overflow-wrap:anywhere;color:#3A2110;}',
+      '.gom-exit-modal__url{font-size:16px;line-height:1.5;overflow-wrap:break-word;overflow-wrap:anywhere;color:#3A2110;}',
       '.gom-exit-modal__note{margin:0 0 22px;color:#8A6A50;font-size:17px;}',
       '.gom-exit-modal__actions{display:flex;justify-content:flex-end;gap:12px;flex-wrap:wrap;position:relative;z-index:2;}',
       '.gom-exit-modal__btn{display:inline-flex;align-items:center;justify-content:center;min-height:58px;padding:14px 28px;border-radius:999px;border:3px solid transparent;font-family:"Abstract Groovy",cursive;font-size:16px;letter-spacing:.04em;text-decoration:none;cursor:pointer;position:relative;overflow:hidden;white-space:nowrap;pointer-events:auto;}',
-      '.gom-exit-modal__btn::before{content:"";position:absolute;inset:0;background:rgba(255,255,255,.18);transform:scaleX(0);transform-origin:left;transition:transform .2s ease;pointer-events:none;}',
+      '.gom-exit-modal__btn::before{content:"";position:absolute;top:0;right:0;bottom:0;left:0;inset:0;background:rgba(255,255,255,.18);transform:scaleX(0);transform-origin:left;transition:transform .2s ease;pointer-events:none;}',
       '.gom-exit-modal__btn:hover::before{transform:scaleX(1);}',
       '.gom-exit-modal__btn--secondary{background:transparent;color:#F4A741;border-color:#F4A741;}',
       '.gom-exit-modal__btn--primary{background:#E8647A;color:#fff;border-color:#E8647A;box-shadow:0 4px 16px rgba(232,100,122,.35);}',
@@ -204,6 +204,13 @@
     });
   }
 
+  // Social / owned channels that should never show the leave-site modal
+  var trustedDomains = {
+    'instagram.com': true,
+    'facebook.com':  true,
+    'tiktok.com':    true
+  };
+
   function shouldConfirm(link) {
     if (!link || link.hasAttribute('download') || link.dataset.skipLeaveConfirm === 'true') return false;
     if (modal && modal.contains(link)) return false;
@@ -220,6 +227,11 @@
 
     if (ignoredProtocols[url.protocol]) return false;
     if (url.origin === window.location.origin) return false;
+
+    // Skip the modal for known owned social-media domains
+    var cleanHost = url.hostname.replace(/^www\./, '');
+    if (trustedDomains[cleanHost]) return false;
+
     return url.protocol === 'http:' || url.protocol === 'https:';
   }
 

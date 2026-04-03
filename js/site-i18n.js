@@ -1,4 +1,4 @@
-/* ================================================================
+﻿/* ================================================================
    GLAZED OVER MINI DONUTS — Internationalisation (i18n)
    Supported languages: English (en) | Spanish (es)
    ================================================================
@@ -78,7 +78,7 @@
         loading_404:          'Looking for the right batch…',
       hero_badge:            'Now Rolling Through Phoenix West Valley',
       hero_heading:          '<span class="word-groovy">Groovy</span><br>Donuts Made<br><span class="line-highlight">the Right Way</span>',
-      hero_desc:             'Fresh, made-to-order mini donuts fried in real beef tallow — no artificial colors. Just peace, love, and buckets full of joy. ✌️❤️🍩',
+      hero_desc:             'Fresh, made-to-order mini donuts fried in real beef tallow — no artificial colors. Just peace, love, and buckets full of joy. ✌️+❤️+🍩',
       hero_cta_menu:         '🍩 See Our Flavors',
       hero_cta_truck:        'Come Find Us',
       hero_badge_oils:       'No Artificial Colors',
@@ -187,7 +187,7 @@
       about_badge_hustle: 'Hustle',
 
       /* Footer */
-      footer_tagline:     'Old-school feel-good mini donuts made with quality, real ingredients and flavor that\'ll make your eyes roll back. Serving the Phoenix West Valley. ✌️❤️🍩',
+      footer_tagline:     'Old-school feel-good mini donuts made with quality, real ingredients and flavor that\'ll make your eyes roll back. Serving the Phoenix West Valley. ✌️+❤️+🍩',
       footer_nav_title:   'Navigate',
       footer_menu_title:  'Menu',
       footer_findus_title:'Find Us',
@@ -346,7 +346,7 @@
       contact_send:        '🍩 Send It!',
       contact_sending:     'Sending...',
       contact_success_h:   'Groovy! Message Sent!',
-      contact_success_p:   'Thanks for reaching out! We\'ll get back to you real soon. In the meantime, follow us on social media to stay in the loop! ✌️❤️🍩',
+      contact_success_p:   'Thanks for reaching out! We\'ll get back to you real soon. In the meantime, follow us on social media to stay in the loop! ✌️+❤️+🍩',
       contact_success_menu:'See the Menu',
       contact_success_home:'Go Home',
       contact_ev_label:    'Catch the Groove!',
@@ -425,7 +425,7 @@
         loading_404:          'Buscando la tanda correcta…',
       hero_badge:            '¡Ahora en el Valle Oeste de Phoenix!',
       hero_heading:          '<span class="word-groovy">Donas</span><br>Artesanales Hechas<br><span class="line-highlight">con Amor</span>',
-      hero_desc:             'Donas mini frescas hechas al momento, fritas en sebo de res — sin colorantes artificiales. Pura paz, amor y cubetas llenas de alegría. ✌️❤️🍩',
+      hero_desc:             'Donas mini frescas hechas al momento, fritas en sebo de res — sin colorantes artificiales. Pura paz, amor y cubetas llenas de alegría. ✌️+❤️+🍩',
       hero_cta_menu:         '🍩 Ver Nuestros Sabores',
       hero_cta_truck:        'Encuéntranos',
       hero_badge_oils:       'Sin Colorantes Artificiales',
@@ -534,7 +534,7 @@
       about_badge_hustle: 'Esfuerzo',
 
       /* Footer */
-      footer_tagline:     'Donas mini artesanales, hechas con ingredientes reales y un sabor que te hará los ojos en blanco. Sirviendo el Valle Oeste de Phoenix. ✌️❤️🍩',
+      footer_tagline:     'Donas mini artesanales, hechas con ingredientes reales y un sabor que te hará los ojos en blanco. Sirviendo el Valle Oeste de Phoenix. ✌️+❤️+🍩',
       footer_nav_title:   'Navegar',
       footer_menu_title:  'Menú',
       footer_findus_title:'Encuéntranos',
@@ -695,7 +695,7 @@
       contact_send:        '🍩 ¡Enviar!',
       contact_sending:     'Enviando...',
       contact_success_h:   '¡Genial! ¡Mensaje Enviado!',
-      contact_success_p:   '¡Gracias por contactarnos! Te responderemos pronto. ¡Mientras tanto, síguenos en redes para estar al tanto! ✌️❤️🍩',
+      contact_success_p:   '¡Gracias por contactarnos! Te responderemos pronto. ¡Mientras tanto, síguenos en redes para estar al tanto! ✌️+❤️+🍩',
       contact_success_menu:'Ver el Menú',
       contact_success_home:'Ir a Inicio',
       contact_ev_label:    '¡Al Ritmo del Groove!',

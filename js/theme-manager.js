@@ -143,10 +143,17 @@
     });
 
     /* Re-apply when OS preference changes (only affects 'auto') */
-    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function () {
+    var darkMql = window.matchMedia('(prefers-color-scheme: dark)');
+    var onMqlChange = function () {
       var pref = getStoredTheme() || 'auto';
       if (pref === 'auto') applyTheme('auto');
-    });
+    };
+    /* Safari 13 only supports deprecated addListener */
+    if (darkMql.addEventListener) {
+      darkMql.addEventListener('change', onMqlChange);
+    } else if (darkMql.addListener) {
+      darkMql.addListener(onMqlChange);
+    }
 
     document.addEventListener('gom:consentchange', function (event) {
       var consent = event && event.detail ? event.detail : null;

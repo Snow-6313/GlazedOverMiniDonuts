@@ -71,7 +71,7 @@
         {
           questions: ['who made this website', 'who built this website', 'who created this website'],
           keywords: ['website', 'site', 'built', 'made', 'created', 'ethan'],
-          answer: 'This website was made by Ashley’s son, Ethan Curtuis.'
+          answer: "This website was made by Ashley's son, Ethan Curtis."
         }
       ]
     },
@@ -103,7 +103,7 @@
         {
           questions: ['quien hizo este sitio web', 'quien creo este sitio web', 'quien hizo la pagina web'],
           keywords: ['sitio web', 'pagina web', 'web', 'hizo', 'creo', 'ethan'],
-          answer: 'Este sitio web fue hecho por Ethan Curtuis, el hijo de Ashley.'
+          answer: 'Este sitio web fue hecho por Ethan Curtis, el hijo de Ashley.'
         }
       ]
     }

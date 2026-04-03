@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en" class="no-js">
 <head>
   <meta charset="UTF-8" />
@@ -34,20 +34,47 @@
 <body class="admin-page" data-admin-view="dashboard">
   <a href="#admin-main" class="skip-link">Skip to admin content</a>
   <div id="theme-live" role="status" aria-live="polite" aria-atomic="true" class="sr-only"></div>
+  <div id="lang-live"  role="status" aria-live="polite" aria-atomic="true" class="sr-only"></div>
 
-  <header class="admin-header">
-    <div class="container admin-header-inner">
-      <a href="index.html" class="nav-logo" aria-label="Return to website home">
-        <img src="media/go-logo.png" class="nav-logo-image" alt="Glazed Over Mini Donuts logo" width="278" height="53">
-        <span class="nav-logo-text">Glazed Over<span><br>Dashboard</span></span>
-      </a>
+  <div class="nav-overlay" aria-hidden="true"></div>
 
-      <div class="admin-header-actions">
-        <a href="index.html" class="btn btn-outline admin-back-link">← Back to Site</a>
-        <button id="theme-toggle" aria-label="System theme (auto)" title="Cycle theme" data-current-theme="auto">
-          <span class="sr-only">System theme (auto)</span>
+  <header id="site-header">
+    <div class="container">
+      <nav class="nav-inner" aria-label="Main navigation">
+        <a href="index.html" class="nav-logo" aria-label="Glazed Over Mini Donuts – Home">
+          <img src="media/go-logo.png" class="nav-logo-image" alt="Glazed Over Mini Donuts logo" width="278" height="53">
+          <span class="nav-logo-text">Glazed Over<span><br>Mini Donuts</span></span>
+        </a>
+        <ul class="nav-links" role="list">
+          <li><a href="index.html" data-i18n="nav_home">Home</a></li>
+          <li><a href="menu.html" data-i18n="nav_menu">Menu</a></li>
+          <li><a href="about.html" data-i18n="nav_about">About</a></li>
+          <li><a href="contact.html" data-i18n="nav_contact">Contact</a></li>
+        </ul>
+        <div class="nav-socials" role="group" aria-label="Social media links">
+          <a href="https://www.instagram.com/glazed.over.mini.donuts/" target="_blank" rel="noopener" aria-label="Instagram">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+          </a>
+          <a href="https://www.facebook.com/profile.php?id=61578935101657" target="_blank" rel="noopener" aria-label="Facebook">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+          </a>
+          <a href="https://www.tiktok.com/@glazedoverminidonuts" target="_blank" rel="noopener" aria-label="TikTok">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg>
+          </a>
+        </div>
+        <div class="nav-controls" role="group" aria-label="Display controls">
+          <button id="theme-toggle" aria-label="System theme (auto)" title="Cycle theme: auto → light → dark → high-contrast" data-current-theme="auto">
+            <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+            <span class="sr-only">System theme (auto)</span>
+          </button>
+          <button id="lang-toggle" aria-label="Switch to Spanish" data-lang="en">
+            <span class="lang-label">ES</span>
+          </button>
+        </div>
+        <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">
+          <span></span><span></span><span></span>
         </button>
-      </div>
+      </nav>
     </div>
   </header>
 
@@ -56,7 +83,7 @@
       <span class="section-label">Private dashboard</span>
       <h1 class="section-title">Content <span>Control Center</span></h1>
       <p class="section-subtitle admin-subtitle">
-        Manage flavors, events, monthly specials, beverages, and visuals from one place. This page is separate from the login screen, but real protection still depends on backend authentication.
+        Manage flavors, events, monthly specials, beverages, and visuals from one place.
       </p>
     </section>
 
@@ -69,11 +96,11 @@
           </div>
 
           <nav class="admin-tablist" aria-label="Dashboard sections">
-            <button class="admin-tab is-active" type="button" data-tab="flavors">Flavors</button>
-            <button class="admin-tab" type="button" data-tab="events">Events</button>
-            <button class="admin-tab" type="button" data-tab="monthly">Monthly Jam</button>
-            <button class="admin-tab" type="button" data-tab="beverages">Drinks</button>
-            <button class="admin-tab" type="button" data-tab="settings">Settings</button>
+            <button class="admin-tab is-active" type="button" data-tab="flavors">🍩 Flavors</button>
+            <button class="admin-tab" type="button" data-tab="events">📍 Events</button>
+            <button class="admin-tab" type="button" data-tab="monthly">⭐ Monthly Jam</button>
+            <button class="admin-tab" type="button" data-tab="beverages">☕ Drinks</button>
+            <button class="admin-tab" type="button" data-tab="settings">⚙️ Settings</button>
           </nav>
 
           <div class="admin-sidebar-foot">
@@ -91,9 +118,15 @@
               <span class="section-label">Overview</span>
               <h2 class="admin-card-title">Content Summary</h2>
             </div>
-            <div class="admin-toolbar-statuses">
-              <span id="admin-sync-mode" class="admin-chip">Local storage fallback</span>
-              <span id="admin-session-state" class="admin-chip admin-chip-soft">Session active</span>
+            <div class="admin-toolbar-right">
+              <ol class="admin-workflow-steps" aria-label="Publishing workflow">
+                <li class="admin-workflow-step"><span class="admin-workflow-num">1</span> Edit fields</li>
+                <li class="admin-workflow-step"><span class="admin-workflow-num">2</span> Save item</li>
+                <li class="admin-workflow-step"><span class="admin-workflow-num admin-workflow-num--highlight">3</span> Sync to publish</li>
+              </ol>
+              <div class="admin-toolbar-statuses">
+                <span id="admin-session-state" class="admin-chip admin-chip-soft">Session active</span>
+              </div>
             </div>
           </div>
 
@@ -218,39 +251,33 @@
             <div class="admin-panel-head">
               <div>
                 <span class="section-label">Settings</span>
-                <h3 class="admin-card-title">Backend hookup checklist</h3>
+                <h3 class="admin-card-title">API Configuration</h3>
               </div>
             </div>
+
+            <div class="admin-dev-note">
+              <span class="admin-dev-note-label">For site developer</span>
+              <p>Configure endpoints in <code>js/site-config.js</code> under <code>SiteConfig.admin</code>.</p>
+            </div>
+
             <div class="admin-settings-grid">
               <article class="admin-card admin-setting-card">
-                <strong>Authentication endpoints</strong>
+                <strong>Authentication</strong>
                 <dl class="admin-settings-list">
-                  <div><dt>Login</dt><dd id="endpoint-login">Not set</dd></div>
-                  <div><dt>Session</dt><dd id="endpoint-session">Not set</dd></div>
-                  <div><dt>Logout</dt><dd id="endpoint-logout">Not set</dd></div>
-                  <div><dt>Users</dt><dd id="endpoint-users">Not set</dd></div>
+                  <div><dt>Mode</dt><dd id="endpoint-auth-mode" class="admin-endpoint-value" data-configured="false">—</dd></div>
+                  <div><dt>Project ID</dt><dd id="endpoint-fb-project" class="admin-endpoint-value" data-configured="false">—</dd></div>
+                  <div><dt>Auth domain</dt><dd id="endpoint-fb-authdomain" class="admin-endpoint-value" data-configured="false">—</dd></div>
+                  <div><dt>App ID</dt><dd id="endpoint-fb-appid" class="admin-endpoint-value" data-configured="false">—</dd></div>
                 </dl>
               </article>
               <article class="admin-card admin-setting-card">
-                <strong>Content endpoints</strong>
+                <strong>Storage &amp; Data</strong>
                 <dl class="admin-settings-list">
-                  <div><dt>Flavors</dt><dd id="endpoint-flavors">Not set</dd></div>
-                  <div><dt>Events</dt><dd id="endpoint-events">Not set</dd></div>
-                  <div><dt>Monthly</dt><dd id="endpoint-monthly">Not set</dd></div>
-                  <div><dt>Beverages</dt><dd id="endpoint-beverages">Not set</dd></div>
-                  <div><dt>Media upload</dt><dd id="endpoint-media-upload">Not set</dd></div>
-                  <div><dt>Media library</dt><dd id="endpoint-media-library">Not set</dd></div>
-                  <div><dt>Media delete</dt><dd id="endpoint-media-delete">Not set</dd></div>
+                  <div><dt>Firestore collection</dt><dd id="endpoint-fb-collection" class="admin-endpoint-value" data-configured="false">—</dd></div>
+                  <div><dt>Storage bucket</dt><dd id="endpoint-fb-bucket" class="admin-endpoint-value" data-configured="false">—</dd></div>
+                  <div><dt>Uploads folder</dt><dd id="endpoint-fb-uploads" class="admin-endpoint-value" data-configured="false">—</dd></div>
+                  <div><dt>Measurement ID</dt><dd id="endpoint-fb-measurement" class="admin-endpoint-value" data-configured="false">—</dd></div>
                 </dl>
-              </article>
-              <article class="admin-card admin-setting-card admin-setting-note">
-                <strong>Recommended auth flow</strong>
-                <ol class="admin-number-list">
-                  <li>POST username/password to the login endpoint over HTTPS.</li>
-                  <li>Backend checks hashed password and returns a secure session token.</li>
-                  <li>Frontend stores the token and sends it with later save requests.</li>
-                  <li>Use the users endpoint later for admin creation, resets, and roles.</li>
-                </ol>
               </article>
             </div>
           </section>
@@ -259,9 +286,61 @@
     </section>
   </main>
 
+  <footer id="site-footer" role="contentinfo">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <span class="nav-logo-text">Glazed Over<br><small style="font-size:.7em;opacity:.7;">Mini Donuts</small></span>
+          <p class="footer-tagline" data-i18n="footer_tagline">Old-school feel-good mini donuts made with quality, real ingredients and flavor that'll make your eyes roll back. Serving the Phoenix West Valley. ✌️+❤️+🍩</p>
+          <div class="footer-socials">
+            <a href="https://www.instagram.com/glazed.over.mini.donuts/" target="_blank" rel="noopener" class="footer-social" aria-label="Instagram"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></a>
+            <a href="https://www.facebook.com/profile.php?id=61578935101657" target="_blank" rel="noopener" class="footer-social" aria-label="Facebook"><svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
+            <a href="https://www.tiktok.com/@glazedoverminidonuts" target="_blank" rel="noopener" class="footer-social" aria-label="TikTok"><svg viewBox="0 0 24 24"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg></a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <div class="footer-col-title" data-i18n="footer_nav_title">Navigate</div>
+          <ul class="footer-links">
+            <li><a href="index.html" data-i18n="footer_home">→ Home</a></li>
+            <li><a href="menu.html" data-i18n="footer_menu_link">→ Far Out Menu</a></li>
+            <li><a href="about.html" data-i18n="footer_about">→ About Ashley</a></li>
+            <li><a href="contact.html" data-i18n="footer_contact">→ Contact &amp; Events</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <div class="footer-col-title" data-i18n="footer_legal_title">Legal</div>
+          <ul class="footer-links">
+            <li><a href="privacy.html" data-i18n="footer_privacy">→ Privacy Policy</a></li>
+            <li><a href="terms.html" data-i18n="footer_terms">→ Terms of Service</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <div class="footer-col-title" data-i18n="footer_findus_title">Find Us</div>
+          <ul class="footer-links">
+            <li><a href="contact.html" data-i18n="footer_events">→ Upcoming Events</a></li>
+            <li><a href="https://www.instagram.com/glazed.over.mini.donuts/" target="_blank" rel="noopener" data-i18n="footer_instagram">→ Instagram Updates</a></li>
+            <li><a href="https://www.facebook.com/profile.php?id=61578935101657" target="_blank" rel="noopener" data-i18n="footer_facebook">→ Facebook Page</a></li>
+            <li><a href="https://www.tiktok.com/@glazedoverminidonuts" target="_blank" rel="noopener" data-i18n="footer_tiktok">→ TikTok Videos</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <div class="footer-meta">
+          <p class="footer-copy" data-i18n="footer_copy">© 2026 Glazed Over Mini Donuts. All rights reserved. Made with ❤️ in Phoenix, AZ.</p>
+          <p class="footer-credit">Website designed and created by <a href="https://github.com/Snow-6313" target="_blank" rel="noopener">Ethan Curtis</a>.</p>
+        </div>
+        <span class="footer-peace" aria-label="Peace sign">☮️</span>
+      </div>
+    </div>
+  </footer>
+
+  <button id="back-to-top" aria-label="Back to top">↑</button></script>
   <script src="js/private-config.js"></script>
   <script src="js/site-config.js"></script>
   <script src="js/theme-manager.js"></script>
+  <script src="js/site-i18n.js"></script>
+  <script src="js/external-link-modal.js"></script>
+  <script src="js/main.js"></script>
   <script type="module" src="js/admin-app.js"></script>
 </body>
 </html>

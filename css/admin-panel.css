@@ -10,54 +10,8 @@ body.admin-page {
   display: none !important;
 }
 
-.admin-header {
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  padding: 1rem 0;
-  background: rgba(253,244,227,.92);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border-bottom: 1px solid rgba(45,27,14,.08);
-}
-
-.admin-header-inner,
-.admin-header-actions {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-}
-
-.admin-header-actions {
-  justify-content: flex-end;
-}
-
-#theme-toggle {
-  width: 46px;
-  height: 46px;
-  border-radius: 50%;
-  border: 1.5px solid rgba(45,27,14,.12);
-  background: rgba(255,255,255,.72);
-  color: var(--clr-dark);
-  display: grid;
-  place-items: center;
-  transition: var(--transition-fast);
-}
-
-#theme-toggle:hover {
-  transform: translateY(-2px);
-  border-color: var(--clr-primary);
-  box-shadow: var(--shadow-sm);
-}
-
-#theme-toggle svg {
-  width: 20px;
-  height: 20px;
-}
-
 .admin-main {
-  padding: 2rem 0 4rem;
+  padding: calc(var(--header-h, 80px) + 2rem) 0 4rem;
 }
 
 .admin-hero {
@@ -76,6 +30,16 @@ body.admin-page {
   gap: 1.5rem;
 }
 
+.admin-auth-single {
+  display: flex;
+  justify-content: center;
+}
+
+.admin-auth-single .admin-login-card {
+  width: 100%;
+  max-width: 28rem;
+}
+
 .admin-card {
   background: rgba(255,251,244,.9);
   border: 1px solid rgba(45,27,14,.08);
@@ -84,7 +48,6 @@ body.admin-page {
 }
 
 .admin-login-card,
-.admin-auth-notes,
 .admin-sidebar,
 .admin-toolbar,
 .admin-summary-card,
@@ -201,6 +164,71 @@ body.admin-page {
   border-radius: 1rem;
   background: rgba(244,167,65,.10);
   border: 1px dashed rgba(244,167,65,.35);
+}
+
+/* Developer note banner in settings panel */
+.admin-dev-note {
+  margin-bottom: 1.5rem;
+  padding: 1rem 1.25rem;
+  border-radius: 1rem;
+  background: rgba(45,27,14,.04);
+  border: 1px solid rgba(45,27,14,.10);
+  display: grid;
+  gap: .5rem;
+}
+
+.admin-dev-note-label {
+  font-size: .7rem;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--clr-secondary);
+}
+
+.admin-dev-note p,
+.admin-dev-note-list {
+  margin: 0;
+  font-size: .875rem;
+  line-height: 1.6;
+  color: var(--clr-muted);
+}
+
+.admin-dev-note-list {
+  padding-left: 1.1rem;
+  display: grid;
+  gap: .45rem;
+  list-style: disc;
+}
+
+.admin-dev-note-list a {
+  color: var(--clr-primary);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  word-break: break-all;
+}
+
+.admin-dev-note code {
+  font-family: ui-monospace, 'Cascadia Code', 'Fira Code', monospace;
+  font-size: .8em;
+  background: rgba(45,27,14,.07);
+  padding: .1em .35em;
+  border-radius: .3rem;
+}
+
+/* Endpoint value badges */
+.admin-endpoint-value {
+  font-size: .8rem;
+  word-break: break-all;
+}
+
+.admin-endpoint-value[data-configured="true"] {
+  color: #3a7d44;
+  font-style: normal;
+}
+
+.admin-endpoint-value[data-configured="false"] {
+  color: var(--clr-muted);
+  font-style: italic;
 }
 
 .admin-inline-message {
@@ -615,6 +643,16 @@ body.admin-page {
   margin-top: 1rem;
 }
 
+.admin-setting-link {
+  color: var(--clr-primary);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.admin-setting-link:hover {
+  text-decoration: underline;
+}
+
 .admin-settings-list {
   margin-top: 1rem;
   display: grid;
@@ -650,11 +688,6 @@ body.admin-page {
 [data-theme="dark"] #theme-toggle {
   background: rgba(32,17,8,.9);
   border-color: rgba(244,167,65,.15);
-}
-
-[data-theme="dark"] .admin-header {
-  background: rgba(26,14,5,.9);
-  border-bottom-color: rgba(244,167,65,.12);
 }
 
 [data-theme="dark"] .admin-tab:hover,
@@ -696,8 +729,6 @@ body.admin-page {
 }
 
 @media (max-width: 720px) {
-  .admin-header-inner,
-  .admin-header-actions,
   .admin-panel-head,
   .admin-toolbar {
     flex-direction: column;
@@ -714,12 +745,288 @@ body.admin-page {
     grid-template-columns: 1fr;
   }
 
-  .admin-back-link,
   .admin-panel-actions .btn,
   .admin-editor-actions .btn,
-  .admin-logout-btn,
-  #theme-toggle {
+  .admin-logout-btn {
     width: 100%;
     justify-content: center;
+  }
+}
+
+/* =============================================================
+   TOOLBAR RIGHT — workflow steps + session chip
+   ============================================================= */
+.admin-toolbar-right {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  flex-shrink: 0;
+}
+
+/* Workflow steps */
+.admin-workflow-steps {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  counter-reset: none;
+}
+
+.admin-workflow-step {
+  display: flex;
+  align-items: center;
+  gap: .35rem;
+  font-size: .72rem;
+  font-weight: 500;
+  color: var(--admin-text-muted, #6b7280);
+  white-space: nowrap;
+}
+
+.admin-workflow-step + .admin-workflow-step::before {
+  content: '→';
+  margin: 0 .45rem;
+  color: var(--admin-text-muted, #9ca3af);
+  font-weight: 400;
+}
+
+.admin-workflow-num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.3rem;
+  height: 1.3rem;
+  border-radius: 50%;
+  background: var(--admin-surface-2, #e5e7eb);
+  color: var(--admin-text, #111827);
+  font-size: .65rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.admin-workflow-num--highlight {
+  background: var(--admin-accent, #f59e0b);
+  color: #fff;
+}
+
+/* Inline hint inside editor */
+.admin-workflow-hint {
+  font-size: .78rem;
+  color: var(--admin-text-muted, #6b7280);
+  margin: 0 0 1rem;
+  padding: .55rem .75rem;
+  background: var(--admin-surface-2, #f3f4f6);
+  border-radius: .5rem;
+  border-left: 3px solid var(--admin-accent, #f59e0b);
+}
+
+/* =============================================================
+   EDITOR HEADER — title row + dirty badge
+   ============================================================= */
+.admin-editor-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: .5rem;
+}
+
+.admin-dirty-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: .3rem;
+  padding: .2rem .6rem;
+  font-size: .7rem;
+  font-weight: 600;
+  background: #fef3c7;
+  color: #92400e;
+  border: 1px solid #fcd34d;
+  border-radius: 9999px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* Dirty dot on sidebar tab */
+.admin-tab[data-dirty]::after {
+  content: '';
+  display: inline-block;
+  width: .45rem;
+  height: .45rem;
+  border-radius: 50%;
+  background: var(--admin-accent, #f59e0b);
+  margin-left: .4rem;
+  vertical-align: middle;
+  flex-shrink: 0;
+}
+
+/* =============================================================
+   UPLOAD ZONE
+   ============================================================= */
+.admin-upload-zone {
+  position: relative;
+  border: 2px dashed var(--admin-border, #d1d5db);
+  border-radius: .75rem;
+  overflow: hidden;
+  background: var(--admin-surface-2, #f9fafb);
+  transition: border-color .2s, background .2s;
+  margin-bottom: 1.25rem;
+}
+
+.admin-upload-zone:focus-within,
+.admin-upload-zone:hover {
+  border-color: var(--admin-accent, #f59e0b);
+  background: #fffbeb;
+}
+
+.admin-upload-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 9rem;
+  cursor: pointer;
+  position: relative;
+  padding: 1.5rem 1rem;
+}
+
+/* hide the raw <input> */
+.admin-upload-area .admin-file-input {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+  width: 100%;
+  height: 100%;
+}
+
+.admin-upload-prompt {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: .35rem;
+  text-align: center;
+  pointer-events: none;
+  transition: opacity .2s;
+}
+
+.admin-upload-icon {
+  font-size: 2rem;
+  line-height: 1;
+}
+
+.admin-upload-prompt strong {
+  font-size: .9rem;
+  color: var(--admin-text, #111827);
+}
+
+.admin-upload-hint {
+  font-size: .72rem;
+  color: var(--admin-text-muted, #6b7280);
+}
+
+/* Preview image — hidden until has-image */
+.admin-upload-preview {
+  display: none;
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: calc(.75rem - 2px);
+  pointer-events: none;
+}
+
+.admin-upload-zone.has-image .admin-upload-preview {
+  display: block;
+}
+
+.admin-upload-zone.has-image .admin-upload-prompt {
+  opacity: 0;
+}
+
+/* Overlay buttons — shown over the image */
+.admin-upload-overlay-btns {
+  display: flex;
+  gap: .5rem;
+  padding: .6rem .75rem;
+  background: linear-gradient(to top, rgba(0,0,0,.55) 0%, transparent 100%);
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  justify-content: flex-end;
+  opacity: 0;
+  transition: opacity .2s;
+}
+
+.admin-upload-zone.has-image .admin-upload-overlay-btns,
+.admin-upload-zone:focus-within .admin-upload-overlay-btns,
+.admin-upload-zone:hover .admin-upload-overlay-btns {
+  opacity: 1;
+}
+
+.admin-upload-overlay-btns .btn {
+  font-size: .73rem;
+  padding: .3rem .75rem;
+  border-radius: .4rem;
+}
+
+/* Not-has-image: buttons shown normally below */
+.admin-upload-zone:not(.has-image) .admin-upload-overlay-btns {
+  position: static;
+  background: none;
+  padding: .25rem .75rem .6rem;
+  opacity: 1;
+  justify-content: flex-start;
+}
+
+/* Loading / uploading state */
+.admin-upload-zone.is-uploading {
+  pointer-events: none;
+}
+
+.admin-upload-zone.is-uploading::after {
+  content: 'Uploading\2026';
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255,255,255,.75);
+  font-size: .85rem;
+  font-weight: 600;
+  color: var(--admin-accent, #f59e0b);
+  border-radius: calc(.75rem - 2px);
+}
+
+/* =============================================================
+   DARK MODE ADDITIONS
+   ============================================================= */
+@media (prefers-color-scheme: dark) {
+  .admin-workflow-hint {
+    background: var(--admin-surface-2, #1f2937);
+    color: var(--admin-text-muted, #9ca3af);
+  }
+
+  .admin-dirty-badge {
+    background: #451a03;
+    color: #fcd34d;
+    border-color: #92400e;
+  }
+
+  .admin-upload-zone {
+    background: var(--admin-surface-2, #1f2937);
+    border-color: var(--admin-border, #374151);
+  }
+
+  .admin-upload-zone:focus-within,
+  .admin-upload-zone:hover {
+    background: #1c1a08;
+    border-color: var(--admin-accent, #f59e0b);
+  }
+
+  .admin-upload-zone.is-uploading::after {
+    background: rgba(17,24,39,.8);
   }
 }
